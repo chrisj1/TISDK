@@ -19,8 +19,11 @@ import javax.swing.JPanel;
 import sdk.core.Dungeon;
 import sdk.core.Room;
 import sdk.util.Loader;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class DungeonViewer {
 
@@ -32,6 +35,9 @@ public class DungeonViewer {
 
 	private GridLayout layout;
 	private JPanel[][] grid;
+	
+	private boolean isConnecting;
+	private Room[] connectedRooms;
 
 	/**
 	 * Launch the application.
@@ -53,15 +59,15 @@ public class DungeonViewer {
 	 * Create the application.
 	 */
 	public DungeonViewer() {
-		Room room0 = new Room();
-		Room room1 = new Room();
-		Room room2 = new Room();
-		Room room3 = new Room();
-		Room room4 = new Room();
-		Room room5 = new Room();
-		Room room6 = new Room();
-		Room room7 = new Room();
-		Room room8 = new Room();
+		Room room0 = new Room(0);
+		Room room1 = new Room(1);
+		Room room2 = new Room(2);
+		Room room3 = new Room(3);
+		Room room4 = new Room(4);
+		Room room5 = new Room(5);
+		Room room6 = new Room(6);
+		Room room7 = new Room(7);
+		Room room8 = new Room(8);
 
 		room0.setRight(room1);
 
@@ -87,7 +93,7 @@ public class DungeonViewer {
 		room7.setRight(room8);
 
 		room8.setLeft(room7);
-
+		
 		Room[] row0 = {
 				room0, room1, room2
 		};
@@ -151,8 +157,18 @@ public class DungeonViewer {
 		JMenuItem mntmNewDungeon = new JMenuItem("New Dungeon");
 		file.add(mntmNewDungeon);
 
-		JMenu mnNewMenu = new JMenu("Dungeon");
-		menuBar.add(mnNewMenu);
+		JMenu mntmDungeon = new JMenu("Dungeon");
+		
+		JMenuItem mntmCreateConnection = new JMenuItem("Create Connection");
+		mntmCreateConnection.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("Creating connection");
+				isConnecting = true;
+				connectedRooms = new Room[2];
+			}
+		});
+		mntmDungeon.add(mntmCreateConnection);
+		menuBar.add(mntmDungeon);
 
 		Room[][] rooms = dungeon.getRooms();
 
@@ -164,8 +180,7 @@ public class DungeonViewer {
 
 		for(int row = 0; row < rooms.length; row++) {
 			for(int col = 0; col < rooms[0].length; col++) {
-				grid[row][col] = new JPanel();
-				//grid[row][col].setBackground(new Color(0,0,255));
+				grid[row][col] = new IDJPanel(rooms.length * row + col);
 			}
 		}
 
@@ -182,9 +197,60 @@ public class DungeonViewer {
 				Image image = img.getScaledInstance(img.getWidth() * 15, img.getHeight() * 15, Image.SCALE_FAST);
 				ImageIcon icon = new ImageIcon(image);
 				JLabel label = new JLabel(icon);
+				label.addMouseListener(new MouseListener() {
+					@Override
+					public void mouseClicked(MouseEvent arg0) {
+						IDJPanel panel = (IDJPanel) arg0.getComponent().getParent();
+						if(isConnecting) {
+							if(connectedRooms[0] == null)	{
+								connectedRooms[0] = findRoomByID(panel.getId());
+							}
+						}
+					}
+
+					@Override
+					public void mouseEntered(MouseEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void mouseExited(MouseEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void mousePressed(MouseEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void mouseReleased(MouseEvent arg0) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+				});
 				grid[row][col].add(label);
 			}
 		}
 	}
 
+	private void connectRoomsIfValid(Room one, Room two) {
+	}
+	
+	private Room findRoomByID(int id) {
+		Room[][] rooms = dungeon.getRooms();
+		for(int row = 0; row < rooms.length; row++) {
+			for(int col = 0; col < rooms[0].length; col++) {
+				if(rooms[row][col].getId() == id) {
+					return rooms[row][col];
+				}
+			}
+		}
+		return null;
+	}
+	
 }

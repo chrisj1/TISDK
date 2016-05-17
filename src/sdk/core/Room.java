@@ -6,19 +6,22 @@ public class Room {
 	private Room botton;
 	private Room left;
 	private Room right;
+	private int id;
 
-	public Room() {
+	public Room(int id) {
 		this.top = null;
 		this.botton = null;
 		this.left = null;
 		this.right = null;
+		this.setId(id);
 	}
 
-	public Room(Room top, Room botton, Room left, Room right) {
+	public Room(Room top, Room botton, Room left, Room right, int id) {
 		this.top = top;
 		this.botton = botton;
 		this.left = left;
 		this.right = right;
+		this.setId(id);
 	}
 
 	/**
@@ -75,6 +78,14 @@ public class Room {
 	@Override
 	public String toString() {
 		return "room";
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }

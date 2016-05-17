@@ -2,21 +2,19 @@ package sdk.util;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 
-import com.google.gson.Gson;
-
 import sdk.core.Dungeon;
 import sdk.core.Room;
+
+import com.google.gson.Gson;
 
 public class Loader {
 
@@ -24,24 +22,35 @@ public class Loader {
 	public static final int SPACE = new Color(0,0,0).getRGB();
 
 	public static Dungeon loadDungeon(String filePath) {
-		URI uri;
-		Gson gson = null;
-		String text = "";
+		URI url;
+		String full = "";
 		try {
-			gson = new Gson();
-			uri = Loader.class.getResource(filePath).toURI();
-			List<String> lines = Files.readAllLines(Paths.get(uri),
-					Charset.defaultCharset());
+			url = Loader.class.getResource(filePath).toURI();
+			File file = new File(url);
+			FileReader reader = new FileReader(file);
+			BufferedReader br = new BufferedReader(reader);
+			String line = br.readLine();
 
-			for (String line : lines) {
-				text+=line;
+			while (line != null) {
+				full+=line;
+				full+="\n";
+				line = br.readLine();
 			}
-		} catch (URISyntaxException | IOException e) {
+			br.close();
+
+		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(-1);
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
 		}
 
-		return gson.fromJson(filePath, Dungeon.class);
+		return stringToDungeon(full);
+	}
+
+	private static Dungeon stringToDungeon(String full) {
+		
+		return null;
 	}
 
 	public static void saveDungeon(Dungeon dungeon) {
