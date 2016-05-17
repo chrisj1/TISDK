@@ -3,6 +3,7 @@ package sdk.view;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -158,6 +159,7 @@ public class DungeonViewer {
 
 		layout = new GridLayout(rooms.length, rooms[0].length, 0, 0);
 		frame.setLayout(layout);
+
 		grid = new JPanel[rooms.length][rooms[0].length];
 
 		for(int row = 0; row < rooms.length; row++) {
@@ -166,20 +168,23 @@ public class DungeonViewer {
 			}
 		}
 
+		for(int row = 0; row < rooms.length; row++) {
+			for(int col = 0; col < rooms[0].length; col++) {
+				frame.add(grid[row][col]);
+			}
+		}
 
 		for(int row = 0; row < rooms.length; row++) {
 			for(int col = 0; col < rooms[0].length; col++) {
 				Room room = dungeon.getRooms()[row][col];
 				BufferedImage img = Loader.genBufferedImageFromRoom(room);
 				room.setImage(img);
-				System.out.println(img);
-				ImageIcon icon = new ImageIcon(img);
+				Image image = img.getScaledInstance(img.getWidth() * 15, img.getHeight() * 15, Image.SCALE_FAST);
+				ImageIcon icon = new ImageIcon(image);
 				JLabel label = new JLabel(icon);
 				grid[row][col].add(label);
 			}
 		}
-
-		System.out.println(dungeon.getRooms().length * dungeon.getRooms()[0].length);
 	}
 
 }
