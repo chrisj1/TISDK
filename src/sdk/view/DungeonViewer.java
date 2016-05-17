@@ -1,5 +1,6 @@
 package sdk.view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -63,37 +64,29 @@ public class DungeonViewer {
 		Room room8 = new Room();
 
 		room0.setRight(room1);
-		room0.setBotton(room3);
 
 		room1.setLeft(room0);
 		room1.setRight(room2);
 		room1.setBotton(room4);
 
 		room2.setLeft(room1);
-		room2.setBotton(room5);
 
-		room3.setTop(room0);
 		room3.setRight(room4);
-		room3.setBotton(room6);
 
 		room4.setTop(room1);
 		room4.setRight(room5);
 		room4.setLeft(room3);
 		room4.setBotton(room7);
 
-		room5.setTop(room2);
-		room5.setRight(room5);
 		room5.setLeft(room4);
 
-		room6.setTop(room3);
 		room6.setRight(room7);
 
 		room7.setTop(room4);
 		room7.setLeft(room6);
 		room7.setRight(room8);
 
-		room8.setTop(room5);
-		room8.setRight(room7);
+		room8.setLeft(room7);
 
 		Room[] row0 = {
 				room0, room1, room2
@@ -172,6 +165,7 @@ public class DungeonViewer {
 		for(int row = 0; row < rooms.length; row++) {
 			for(int col = 0; col < rooms[0].length; col++) {
 				grid[row][col] = new JPanel();
+				//grid[row][col].setBackground(new Color(0,0,255));
 			}
 		}
 
