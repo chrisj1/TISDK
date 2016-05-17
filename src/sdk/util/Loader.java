@@ -78,7 +78,7 @@ public class Loader {
 			}
 		}
 
-		if(room.getBotton() != null) {
+		if(room.getBottom() != null) {
 			for(int i = 7; i < 9; i++) {
 				bi.setRGB(i, bi.getHeight()-1, SPACE);
 			}

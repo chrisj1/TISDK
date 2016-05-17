@@ -3,14 +3,14 @@ package sdk.core;
 public class Room {
 
 	private Room top;
-	private Room botton;
+	private Room bottom;
 	private Room left;
 	private Room right;
 	private int id;
 
 	public Room(int id) {
 		this.top = null;
-		this.botton = null;
+		this.bottom = null;
 		this.left = null;
 		this.right = null;
 		this.setId(id);
@@ -18,7 +18,7 @@ public class Room {
 
 	public Room(Room top, Room botton, Room left, Room right, int id) {
 		this.top = top;
-		this.botton = botton;
+		this.bottom = botton;
 		this.left = left;
 		this.right = right;
 		this.setId(id);
@@ -31,10 +31,10 @@ public class Room {
 		return top;
 	}
 	/**
-	 * @return the botton
+	 * @return the bottom
 	 */
-	public Room getBotton() {
-		return botton;
+	public Room getBottom() {
+		return bottom;
 	}
 	/**
 	 * @return the left
@@ -55,10 +55,10 @@ public class Room {
 		this.top = top;
 	}
 	/**
-	 * @param botton the botton to set
+	 * @param botton the bottom to set
 	 */
-	public void setBotton(Room botton) {
-		this.botton = botton;
+	public void setBottom(Room bottom) {
+		this.bottom = bottom;
 	}
 	/**
 	 * @param left the left to set
