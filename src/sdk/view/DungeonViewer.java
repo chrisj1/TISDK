@@ -18,6 +18,8 @@ import javax.swing.JPanel;
 import sdk.core.Dungeon;
 import sdk.core.Room;
 import sdk.util.Loader;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class DungeonViewer {
 
@@ -143,6 +145,11 @@ public class DungeonViewer {
 		menuBar.add(file);
 
 		JMenuItem mntmSave = new JMenuItem("Save");
+		mntmSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Loader.saveDungeon(DungeonViewer.dungeon);
+			}
+		});
 		file.add(mntmSave);
 
 		JMenuItem mntmLoad = new JMenuItem("Load");
@@ -158,7 +165,7 @@ public class DungeonViewer {
 
 
 		layout = new GridLayout(rooms.length, rooms[0].length, 0, 0);
-		frame.setLayout(layout);
+		frame.getContentPane().setLayout(layout);
 
 		grid = new JPanel[rooms.length][rooms[0].length];
 
@@ -170,7 +177,7 @@ public class DungeonViewer {
 
 		for(int row = 0; row < rooms.length; row++) {
 			for(int col = 0; col < rooms[0].length; col++) {
-				frame.add(grid[row][col]);
+				frame.getContentPane().add(grid[row][col]);
 			}
 		}
 
@@ -178,7 +185,6 @@ public class DungeonViewer {
 			for(int col = 0; col < rooms[0].length; col++) {
 				Room room = dungeon.getRooms()[row][col];
 				BufferedImage img = Loader.genBufferedImageFromRoom(room);
-				room.setImage(img);
 				Image image = img.getScaledInstance(img.getWidth() * 15, img.getHeight() * 15, Image.SCALE_FAST);
 				ImageIcon icon = new ImageIcon(image);
 				JLabel label = new JLabel(icon);

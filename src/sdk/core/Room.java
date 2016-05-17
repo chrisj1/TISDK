@@ -1,36 +1,24 @@
 package sdk.core;
 
-import java.awt.image.BufferedImage;
-
 public class Room {
 
-	private BufferedImage image;
 	private Room top;
 	private Room botton;
 	private Room left;
 	private Room right;
 
 	public Room() {
-		this.image = null;
 		this.top = null;
 		this.botton = null;
 		this.left = null;
 		this.right = null;
 	}
 
-	public Room(BufferedImage image, Room top, Room botton, Room left, Room right) {
-		this.image = image;
+	public Room(Room top, Room botton, Room left, Room right) {
 		this.top = top;
 		this.botton = botton;
 		this.left = left;
 		this.right = right;
-	}
-
-	/**
-	 * @return the image
-	 */
-	public BufferedImage getImage() {
-		return image;
 	}
 
 	/**
@@ -56,12 +44,6 @@ public class Room {
 	 */
 	public Room getRight() {
 		return right;
-	}
-	/**
-	 * @param image the image to set
-	 */
-	public void setImage(BufferedImage image) {
-		this.image = image;
 	}
 	/**
 	 * @param top the top to set
