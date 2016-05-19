@@ -28,8 +28,8 @@ public class DungeonViewer {
 	private JFrame frame;
 	public static Dungeon dungeon;
 
-	public static int WIDTH = 3;
-	public static int HEIGHT = 3;
+	public static int WIDTH = 16;
+	public static int HEIGHT = 9;
 
 	private GridLayout layout;
 	private JPanel[][] grid;
@@ -61,28 +61,17 @@ public class DungeonViewer {
 	 */
 	public DungeonViewer() {
 		if (firstDraw) {
-			Room room0 = new Room(0);
-			Room room1 = new Room(1);
-			Room room2 = new Room(2);
-			Room room3 = new Room(3);
-			Room room4 = new Room(4);
-			Room room5 = new Room(5);
-			Room room6 = new Room(6);
-			Room room7 = new Room(7);
-			Room room8 = new Room(8);
+			Room[][] rooms= new Room[WIDTH][HEIGHT];
 			
-			Room[] row0 = {
-					room0, room1, room2
-			};
-			Room[] row1 = {
-					room3, room4, room5
-			};
-			Room[] row2 = {
-					room6, room7, room8
-			};
-			Room[][] rooms={
-					row0, row1, row2
-			};
+			int id = 0;
+			for(int r = 0; r < WIDTH; r++) {
+				for(int c = 0; c < HEIGHT; c++) {
+					rooms[r][c] = new Room(id);
+					id++;
+					System.out.println(id);
+				}
+			}
+			
 			dungeon = new Dungeon(rooms);
 		}
 		try {
@@ -90,7 +79,6 @@ public class DungeonViewer {
 			firstDraw = false;
 			initialize();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -99,9 +87,9 @@ public class DungeonViewer {
 	private void createFrame() {
 		frame = new JFrame();
 		frame.setTitle("TI SDK");
-		frame.setResizable(false);
+		frame.setResizable(true);
 		frame.setFont(new Font("Agency FB", Font.PLAIN, 12));
-		frame.setBounds(100, 100, 753, 522);
+		frame.setBounds(100, 100, 800, 700);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
@@ -174,11 +162,19 @@ public class DungeonViewer {
 			}
 		}
 
+		
+		int width = 64;
+		int height = 32;
+		
+		System.out.println(width);
+		System.out.println(height);
+		
 		for(int row = 0; row < rooms.length; row++) {
 			for(int col = 0; col < rooms[0].length; col++) {
 				Room room = dungeon.getRooms()[row][col];
 				BufferedImage img = Loader.genBufferedImageFromRoom(room);
-				Image image = img.getScaledInstance(img.getWidth() * 15, img.getHeight() * 15, Image.SCALE_FAST);
+				
+				Image image = img.getScaledInstance(width, height, Image.SCALE_FAST);
 				ImageIcon icon = new ImageIcon(image);
 				JLabel label = new JLabel(icon);
 				label.addMouseListener(new MouseListener() {
