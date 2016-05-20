@@ -1,7 +1,9 @@
 package sdk.view;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -37,7 +39,7 @@ public class DungeonViewer {
 	private boolean isConnecting;
 	private boolean isDisconnecting;
 	private Room[] connectedRooms;
-	
+
 	static boolean firstDraw = true;
 
 	/**
@@ -62,16 +64,15 @@ public class DungeonViewer {
 	public DungeonViewer() {
 		if (firstDraw) {
 			Room[][] rooms= new Room[WIDTH][HEIGHT];
-			
+
 			int id = 0;
-			for(int r = 0; r < WIDTH; r++) {
-				for(int c = 0; c < HEIGHT; c++) {
+			for(int c = 0; c < HEIGHT; c++) {
+				for(int r = 0; r < WIDTH; r++) {
 					rooms[r][c] = new Room(id);
 					id++;
-					System.out.println(id);
 				}
 			}
-			
+
 			dungeon = new Dungeon(rooms);
 		}
 		try {
@@ -129,7 +130,7 @@ public class DungeonViewer {
 				connectedRooms = new Room[2];
 			}
 		});
-		
+
 		JMenuItem mntmBlockConnection = new JMenuItem("Block Connection");
 		mntmBlockConnection.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -150,78 +151,42 @@ public class DungeonViewer {
 
 		grid = new JPanel[rooms.length][rooms[0].length];
 
-		for(int row = 0; row < rooms.length; row++) {
-			for(int col = 0; col < rooms[0].length; col++) {
-				grid[row][col] = new IDJPanel(rooms.length * row + col);
+		for(int c = 0; c < HEIGHT; c++) {
+			for(int r = 0; r < WIDTH; r++) {
+				grid[r][c] = new IDJPanel(rooms.length * c + r);
 			}
 		}
 
-		for(int row = 0; row < rooms.length; row++) {
-			for(int col = 0; col < rooms[0].length; col++) {
-				frame.getContentPane().add(grid[row][col]);
+		for(int c = 0; c < HEIGHT; c++) {
+			for(int r = 0; r < WIDTH; r++) {
+				frame.getContentPane().add(grid[r][c]);
 			}
 		}
 
-		
+
 		int width = 64;
 		int height = 32;
-		
+
 		System.out.println(width);
 		System.out.println(height);
-		
+
 		for(int row = 0; row < rooms.length; row++) {
 			for(int col = 0; col < rooms[0].length; col++) {
 				Room room = dungeon.getRooms()[row][col];
 				BufferedImage img = Loader.genBufferedImageFromRoom(room);
-				
+				Graphics g = img.getGraphics();
+				g.setFont(new Font("Arial", Font.BOLD, 64));
+				g.setColor(Color.white);
+				g.drawString("" + room.getId(), 20, 20);
+				g.dispose();
 				Image image = img.getScaledInstance(width, height, Image.SCALE_FAST);
 				ImageIcon icon = new ImageIcon(image);
 				JLabel label = new JLabel(icon);
 				label.addMouseListener(new MouseListener() {
 					@Override
 					public void mouseClicked(MouseEvent arg0) {
-						if(System.getProperty("os.name").contains("mac")) {
-							IDJPanel panel = (IDJPanel) arg0.getComponent().getParent();
-							if(isConnecting) {
-								if(connectedRooms[0] == null)	{
-									connectedRooms[0] = findRoomByID(panel.getId());
-								} else {
-									connectedRooms[1] = findRoomByID(panel.getId());
-									connectRoomsIfValid(connectedRooms[0],  connectedRooms[1]);
-									connectedRooms = null;
-									isConnecting = false;
-									try {
-										frame.dispose();
-										DungeonViewer window = new DungeonViewer();
-										window.frame.setVisible(true);
-										initialize();
-									} catch (IOException e) {
-										e.printStackTrace();
-									}
-								}
-							}
-							if(isDisconnecting) {
-								if(connectedRooms[0] == null)	{
-									connectedRooms[0] = findRoomByID(panel.getId());
-								} else {
-									connectedRooms[1] = findRoomByID(panel.getId());
-									disconnectRoomsIfValid(connectedRooms[0],  connectedRooms[1]);
-									connectedRooms = null;
-									isDisconnecting = false;
-									try {
-										frame.dispose();
-										DungeonViewer window = new DungeonViewer();
-										window.frame.setVisible(true);
-										initialize();
-									} catch (IOException e) {
-										e.printStackTrace();
-									}
-								}
-							}
-							System.out.println(connectedRooms);
-						}
+						handleClick(arg0);
 					}
-
 					@Override
 					public void mouseEntered(MouseEvent arg0) {
 					}
@@ -233,51 +198,10 @@ public class DungeonViewer {
 
 					@Override
 					public void mousePressed(MouseEvent arg0) {
-						if(!System.getProperty("os.name").contains("mac")) {
-							IDJPanel panel = (IDJPanel) arg0.getComponent().getParent();
-							if(isConnecting) {
-								if(connectedRooms[0] == null)	{
-									connectedRooms[0] = findRoomByID(panel.getId());
-								} else {
-									connectedRooms[1] = findRoomByID(panel.getId());
-									connectRoomsIfValid(connectedRooms[0],  connectedRooms[1]);
-									connectedRooms = null;
-									isConnecting = false;
-									try {
-										frame.dispose();
-										DungeonViewer window = new DungeonViewer();
-										window.frame.setVisible(true);
-										initialize();
-									} catch (IOException e) {
-										e.printStackTrace();
-									}
-								}
-							}
-							if(isDisconnecting) {
-								if(connectedRooms[0] == null)	{
-									connectedRooms[0] = findRoomByID(panel.getId());
-								} else {
-									connectedRooms[1] = findRoomByID(panel.getId());
-									disconnectRoomsIfValid(connectedRooms[0],  connectedRooms[1]);
-									connectedRooms = null;
-									isDisconnecting = false;
-									try {
-										frame.dispose();
-										DungeonViewer window = new DungeonViewer();
-										window.frame.setVisible(true);
-										initialize();
-									} catch (IOException e) {
-										e.printStackTrace();
-									}
-								}
-							}
-							System.out.println(connectedRooms);
-						}
 					}
 
 					@Override
 					public void mouseReleased(MouseEvent arg0) {
-						// TODO Auto-generated method stub
 
 					}
 
@@ -308,7 +232,7 @@ public class DungeonViewer {
 			System.out.println("None");
 		}
 	}
-	
+
 	private void connectRoomsIfValid(Room one, Room two) {
 		if(one.getId() + 1 == two.getId()) {
 			one.setRight(two);
@@ -318,29 +242,78 @@ public class DungeonViewer {
 			two.setRight(one);
 			one.setLeft(two);
 			System.out.println("l");
-		} else if(one.getId() + grid.length == two.getId()) {
+		} else if(one.getId() + HEIGHT == two.getId()) {
 			one.setBottom(two);
 			two.setTop(one);
 			System.out.println("b");
-		} else if(one.getId() - grid.length == two.getId()) {
+		} else if(one.getId() - HEIGHT == two.getId()) {
 			two.setBottom(one);
 			one.setTop(two);
 			System.out.println("t");
 		} else {
 			System.out.println("None");
 		}
+		System.out.println(HEIGHT + ": " + one.getId() + ", " + two.getId());
+		System.out.println(one.getId() + HEIGHT == two.getId());
 	}
 
 	private Room findRoomByID(int id) {
 		Room[][] rooms = dungeon.getRooms();
-		for(int row = 0; row < rooms.length; row++) {
-			for(int col = 0; col < rooms[0].length; col++) {
+		for(int row = 0; row < WIDTH; row++) {
+			for(int col = 0; col < HEIGHT; col++) {
 				if(rooms[row][col].getId() == id) {
+					System.out.println("ID: " + rooms[row][col].getId());
 					return rooms[row][col];
 				}
 			}
 		}
 		return null;
+	}
+
+	private void handleClick(MouseEvent arg0) {
+		IDJPanel panel = (IDJPanel) arg0.getComponent().getParent();
+		boolean same = findRoomByID(panel.getId()).getId() == panel.getId();
+		System.out.println("Panel = ID: " + same);
+		System.out.println("room id: " + findRoomByID(panel.getId()).getId());
+		if(!System.getProperty("os.name").contains("mac")) {
+			if(isConnecting) {
+				if(connectedRooms[0] == null)	{
+					connectedRooms[0] = findRoomByID(panel.getId());
+				} else {
+					connectedRooms[1] = findRoomByID(panel.getId());
+					connectRoomsIfValid(connectedRooms[0],  connectedRooms[1]);
+					connectedRooms = null;
+					isConnecting = false;
+					try {
+						frame.dispose();
+						DungeonViewer window = new DungeonViewer();
+						window.frame.setVisible(true);
+						initialize();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			if(isDisconnecting) {
+				if(connectedRooms[0] == null)	{
+					connectedRooms[0] = findRoomByID(panel.getId());
+				} else {
+					connectedRooms[1] = findRoomByID(panel.getId());
+					disconnectRoomsIfValid(connectedRooms[0],  connectedRooms[1]);
+					connectedRooms = null;
+					isDisconnecting = false;
+					try {
+						frame.dispose();
+						DungeonViewer window = new DungeonViewer();
+						window.frame.setVisible(true);
+						initialize();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			System.out.println(connectedRooms);
+		}
 	}
 
 }

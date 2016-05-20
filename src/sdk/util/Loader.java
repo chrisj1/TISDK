@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
@@ -23,7 +24,7 @@ public class Loader {
 
 	public static Dungeon loadDungeon(String filePath) {
 		URI url;
-		String full = "";
+		ArrayList<String> full = "";
 		try {
 			url = Loader.class.getResource(filePath).toURI();
 			File file = new File(url);
@@ -32,8 +33,7 @@ public class Loader {
 			String line = br.readLine();
 
 			while (line != null) {
-				full+=line;
-				full+="\n";
+				full.add(line);
 				line = br.readLine();
 			}
 			br.close();
@@ -48,7 +48,15 @@ public class Loader {
 		return stringToDungeon(full);
 	}
 
-	private static Dungeon stringToDungeon(String full) {
+	private static Dungeon stringToDungeon(ArrayList<String> full) {
+		int width = 0;
+		int heigh = 0;
+		for(String line: full) {
+			if(line.startsWith("#")) continue;
+			if(line.startsWith("r")) {
+				//do stuff adoodles
+			}
+		}
 		
 		return null;
 	}
