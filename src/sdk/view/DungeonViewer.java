@@ -14,6 +14,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -34,7 +35,7 @@ public class DungeonViewer {
 	public static int HEIGHT = 9;
 
 	private GridLayout layout;
-	private JPanel[][] grid;
+	private JButton[][] grid;
 
 	private boolean isConnecting;
 	private boolean isDisconnecting;
@@ -149,11 +150,11 @@ public class DungeonViewer {
 		layout = new GridLayout(rooms.length, rooms[0].length, 0, 0);
 		frame.getContentPane().setLayout(layout);
 
-		grid = new JPanel[rooms.length][rooms[0].length];
+		grid = new JButton[rooms.length][rooms[0].length];
 
 		for(int c = 0; c < HEIGHT; c++) {
 			for(int r = 0; r < WIDTH; r++) {
-				grid[r][c] = new IDJPanel(rooms.length * c + r);
+				grid[r][c] = new IDJButton(rooms.length * c + r);
 			}
 		}
 
@@ -182,7 +183,7 @@ public class DungeonViewer {
 				Image image = img.getScaledInstance(width, height, Image.SCALE_FAST);
 				ImageIcon icon = new ImageIcon(image);
 				JLabel label = new JLabel(icon);
-				label.addMouseListener(new MouseListener() {
+				grid[row][col].addMouseListener(new MouseListener() {
 					@Override
 					public void mouseClicked(MouseEvent arg0) {
 						handleClick(arg0);
@@ -271,45 +272,45 @@ public class DungeonViewer {
 	}
 
 	private void handleClick(MouseEvent arg0) {
-		IDJPanel panel = (IDJPanel) arg0.getComponent().getParent();
-		boolean same = findRoomByID(panel.getId()).getId() == panel.getId();
-		System.out.println("Panel = ID: " + same);
-		System.out.println("room id: " + findRoomByID(panel.getId()).getId());
-		if(!System.getProperty("os.name").contains("mac")) {
-			if(isConnecting) {
-				if(connectedRooms[0] == null)	{
-					connectedRooms[0] = findRoomByID(panel.getId());
-				} else {
-					connectedRooms[1] = findRoomByID(panel.getId());
-					connectRoomsIfValid(connectedRooms[0],  connectedRooms[1]);
-					connectedRooms = null;
-					isConnecting = false;
-					try {
-						frame.dispose();
-						DungeonViewer window = new DungeonViewer();
-						window.frame.setVisible(true);
-						initialize();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+		System.out.println("Comp " + arg0.getComponent().getClass().getSuperclass());
+		IDJButton button = (IDJButton) arg0.getComponent();
+		boolean same = findRoomByID(button.getId()).getId() == button.getId();
+		System.out.println("Button = ID: " + same);
+		System.out.println("room id: " + findRoomByID(button.getId()).getId());
+		if(isConnecting) {
+			if(connectedRooms[0] == null)	{
+				((IDJButton)arg0.getComponent()).setBackground(Color.RED);
+				connectedRooms[0] = findRoomByID(button.getId());
+			} else {
+				connectedRooms[1] = findRoomByID(button.getId());
+				connectRoomsIfValid(connectedRooms[0],  connectedRooms[1]);
+				connectedRooms = null;
+				isConnecting = false;
+				try {
+					frame.dispose();
+					DungeonViewer window = new DungeonViewer();
+					window.frame.setVisible(true);
+					initialize();
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			}
-			if(isDisconnecting) {
-				if(connectedRooms[0] == null)	{
-					connectedRooms[0] = findRoomByID(panel.getId());
-				} else {
-					connectedRooms[1] = findRoomByID(panel.getId());
-					disconnectRoomsIfValid(connectedRooms[0],  connectedRooms[1]);
-					connectedRooms = null;
-					isDisconnecting = false;
-					try {
-						frame.dispose();
-						DungeonViewer window = new DungeonViewer();
-						window.frame.setVisible(true);
-						initialize();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+		}
+		if(isDisconnecting) {
+			if(connectedRooms[0] == null)	{
+				connectedRooms[0] = findRoomByID(button.getId());
+			} else {
+				connectedRooms[1] = findRoomByID(button.getId());
+				disconnectRoomsIfValid(connectedRooms[0],  connectedRooms[1]);
+				connectedRooms = null;
+				isDisconnecting = false;
+				try {
+					frame.dispose();
+					DungeonViewer window = new DungeonViewer();
+					window.frame.setVisible(true);
+					initialize();
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 			}
 			System.out.println(connectedRooms);
