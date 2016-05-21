@@ -114,19 +114,16 @@ public class Loader {
 
 	public static void saveDungeon(Dungeon dungeon) {
 
-		FileChooser chooser = new FileChooser(new Filter(), JFileChooser.SAVE_DIALOG, new ActionListener()
+		FileChooser chooser = new FileChooser(new Filter(), JFileChooser.DIRECTORIES_ONLY, new ActionListener()
 		{
 
 			public void actionPerformed(ActionEvent e) {
-				File file = ((JFileChooser)e.getSource()).getSelectedFile();
+				File file = ((JFileChooser)e.getSource()).getCurrentDirectory();
 				String path = file.getAbsolutePath();
-				if(!file.getAbsolutePath().contains(".bat"))
-				{
-					path+=".dat";
-				}
 				String output = genOutput();
-				file = new File(path);
 				try {
+					System.out.println(file.getAbsolutePath());
+					file = new File(path + "/layout.dat");
 					file.createNewFile();
 					FileWriter wr = new FileWriter(file);
 					wr.append(output);
@@ -134,11 +131,27 @@ public class Loader {
 				} catch (IOException e1) {
 					e1.printStackTrace();
 				}
-				System.out.println(output);
+
+				for(int col = 0; col < dungeon.getRooms()[0].length; col++) {
+					for(int row = 0; row < dungeon.getRooms().length; row++) {
+						BufferedImage bi = genBufferedImageFromRoom(dungeon.getRooms()[row][col]);
+						int id = dungeon.getRooms()[row][col].getId();
+						File loc = new File(file.getParent() + "/room" + id + ".png");
+						try {
+							ImageIO.write(bi, "png", loc);
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						}
+					}
+				}
+
 			}
 
 			private String genOutput() {
-				String output = "# Dungeon layout\n# Width and height of the rooms in tiles";
+				String output = "# Dungeon layout";
+				output+=System.getProperty("line.separator");
+				output+=System.getProperty("line.separator");
+				output+="# Width and height of the rooms in tiles";
 
 				output+=System.getProperty("line.separator");
 				output+="w " + dungeon.getRooms().length;
@@ -146,7 +159,10 @@ public class Loader {
 				output+="h " + dungeon.getRooms()[0].length;
 
 				output+=System.getProperty("line.separator");
+				output+=System.getProperty("line.separator");
+				
 				output+="# Room Links, in the order of" + System.getProperty("line.separator") + "# r UP DOWN LEFT RIGHT\n# Put $ to represent no link" + System.getProperty("line.separator") + "# The first room number is 0" + System.getProperty("line.separator") + "# Room links. start with r";
+				output+=System.getProperty("line.separator");
 				output+=System.getProperty("line.separator");
 				for(int col = 0; col < dungeon.getRooms()[0].length; col++) {
 					for(int row = 0; row < dungeon.getRooms().length; row++)
@@ -195,7 +211,7 @@ public class Loader {
 		});
 	}
 
-	public static BufferedImage genBufferedImageFromRoom(Room room) throws IOException {
+	public static BufferedImage genBufferedImageFromRoom(Room room) {
 		BufferedImage bi = new BufferedImage(16, 9, BufferedImage.TYPE_INT_RGB);
 
 		for(int row = 0; row < bi.getHeight(); row++) {
@@ -231,8 +247,6 @@ public class Loader {
 				bi.setRGB(bi.getWidth()-1, i, SPACE);
 			}
 		}
-
-		ImageIO.write(bi, "png", new File("text123.png"));
 		return bi;
 
 	}
