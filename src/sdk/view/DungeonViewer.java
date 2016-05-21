@@ -90,7 +90,7 @@ public class DungeonViewer {
 		frame.setTitle("TI SDK");
 		frame.setResizable(true);
 		frame.setFont(new Font("Agency FB", Font.PLAIN, 12));
-		frame.setBounds(100, 100, 800, 700);
+		frame.setBounds(0, 0, 1600, 1000);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 
@@ -164,8 +164,8 @@ public class DungeonViewer {
 		}
 
 
-		int width = 64;
-		int height = 32;
+		int width = 64*2;
+		int height = 48;
 
 		System.out.println(width);
 		System.out.println(height);
@@ -213,20 +213,20 @@ public class DungeonViewer {
 
 	private void disconnectRoomsIfValid(Room one, Room two) {
 		if(one.getId() + 1 == two.getId()) {
-			one.setRight(null);
-			two.setLeft(null);
+			one.setRight(-1);
+			two.setLeft(-1);
 			System.out.println("r");
 		} else if(one.getId() - 1 == two.getId()) {
-			two.setRight(null);
-			one.setLeft(null);
+			two.setRight(-1);
+			one.setLeft(-1);
 			System.out.println("l");
 		} else if(one.getId() + grid.length == two.getId()) {
-			one.setBottom(null);
-			two.setTop(null);
+			one.setBottom(-1);
+			two.setTop(-1);
 			System.out.println("b");
 		} else if(one.getId() - grid.length == two.getId()) {
-			two.setBottom(null);
-			one.setTop(null);
+			two.setBottom(-1);
+			one.setTop(-1);
 			System.out.println("t");
 		} else {
 			System.out.println("None");
@@ -235,20 +235,20 @@ public class DungeonViewer {
 
 	private void connectRoomsIfValid(Room one, Room two) {
 		if(one.getId() + 1 == two.getId()) {
-			one.setRight(two);
-			two.setLeft(one);
+			one.setRight(two.getId());
+			two.setLeft(one.getId());
 			System.out.println("r");
 		} else if(one.getId() - 1 == two.getId()) {
-			two.setRight(one);
-			one.setLeft(two);
+			two.setRight(one.getId());
+			one.setLeft(two.getId());
 			System.out.println("l");
 		} else if(one.getId() + HEIGHT == two.getId()) {
-			one.setBottom(two);
-			two.setTop(one);
+			one.setBottom(two.getId());
+			two.setTop(one.getId());
 			System.out.println("b");
 		} else if(one.getId() - HEIGHT == two.getId()) {
-			two.setBottom(one);
-			one.setTop(two);
+			two.setBottom(one.getId());
+			one.setTop(two.getId());
 			System.out.println("t");
 		} else {
 			System.out.println("None");

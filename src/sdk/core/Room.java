@@ -2,90 +2,90 @@ package sdk.core;
 
 public class Room {
 
-	private Room top;
-	private Room bottom;
-	private Room left;
-	private Room right;
+	private int top;
+	private int bottom;
+	private int left;
+	private int right;
 	private int id;
 
 	public Room(int id) {
-		this.top = null;
-		this.bottom = null;
-		this.left = null;
-		this.right = null;
-		this.setId(id);
-	}
-
-	public Room(Room top, Room botton, Room left, Room right, int id) {
-		this.top = top;
-		this.bottom = botton;
-		this.left = left;
-		this.right = right;
-		this.setId(id);
+		this.id = id;
+		this.bottom = -1;
+		this.left = -1;
+		this.right = -1;
+		this.top = -1;
 	}
 
 	/**
 	 * @return the top
 	 */
-	public Room getTop() {
+	public int getTop() {
 		return top;
 	}
+
 	/**
 	 * @return the bottom
 	 */
-	public Room getBottom() {
+	public int getBottom() {
 		return bottom;
 	}
+
 	/**
 	 * @return the left
 	 */
-	public Room getLeft() {
+	public int getLeft() {
 		return left;
 	}
+
 	/**
 	 * @return the right
 	 */
-	public Room getRight() {
+	public int getRight() {
 		return right;
 	}
-	/**
-	 * @param top the top to set
-	 */
-	public void setTop(Room top) {
-		this.top = top;
-	}
-	/**
-	 * @param botton the bottom to set
-	 */
-	public void setBottom(Room bottom) {
-		this.bottom = bottom;
-	}
-	/**
-	 * @param left the left to set
-	 */
-	public void setLeft(Room left) {
-		this.left = left;
-	}
-	/**
-	 * @param right the right to set
-	 */
-	public void setRight(Room right) {
-		this.right = right;
-	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString() {
-		return "room";
-	}
 
+	/**
+	 * @return the id
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * @param top the top to set
+	 */
+	public void setTop(int top) {
+		this.top = top;
+	}
+
+	/**
+	 * @param bottom the bottom to set
+	 */
+	public void setBottom(int bottom) {
+		this.bottom = bottom;
+	}
+
+	/**
+	 * @param left the left to set
+	 */
+	public void setLeft(int left) {
+		this.left = left;
+	}
+
+	/**
+	 * @param right the right to set
+	 */
+	public void setRight(int right) {
+		this.right = right;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	
 
 }
