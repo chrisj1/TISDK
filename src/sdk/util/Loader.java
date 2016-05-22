@@ -21,84 +21,103 @@ import sdk.core.Room;
 import sdk.view.FileChooser;
 import sdk.view.Filter;
 
-public class Loader {
+public class Loader
+{
 
-	public static final int WALL = new Color(0,0,255).getRGB();
-	public static final int SPACE = new Color(0,0,0).getRGB();
+	public static final int WALL = new Color(6,6,255).getRGB();
+	public static final int TILE = new Color(1,1,0).getRGB();
 
 	public static Dungeon loadDungeon(String filePath) {
 		URI url;
 		ArrayList<String> full = new ArrayList<String>();
-		try {
+		try
+		{
 			url = Loader.class.getResource(filePath).toURI();
 			File file = new File(url);
 			FileReader reader = new FileReader(file);
 			BufferedReader br = new BufferedReader(reader);
 			String line = br.readLine();
 
-			while (line != null) {
+			while (line != null)
+			{
 				full.add(line);
 				line = br.readLine();
 			}
 			br.close();
 
-		} catch (IOException e) {
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
 			System.exit(-1);
-		} catch (URISyntaxException e) {
+		}
+		catch (URISyntaxException e)
+		{
 			e.printStackTrace();
 		}
 
 		return stringToDungeon(full);
 	}
 
-	private static Dungeon stringToDungeon(ArrayList<String> full) {
+	private static Dungeon stringToDungeon(ArrayList<String> full)
+	{
 		int width = 0;
 		int height = 0;
 		Room[][] rooms = null;
 		int roomNum = 0;
 
 		for(String line: full) {
-			if(width != 0 && height != 0 && rooms == null) {
+			if(width != 0 && height != 0 && rooms == null)
+			{
 				rooms = new Room[width][height];
 			}
 
-			if(line.startsWith("#")) continue;
-			if(line.startsWith("w")) {
+			if(line.startsWith("#"))
+			{
+				continue;
+			}
+			if(line.startsWith("w"))
+			{
 				width = Integer.parseInt(line.substring(2));
 				continue;
 			}
-			if(line.startsWith("h")) {
+			if(line.startsWith("h"))
+			{
 				height = Integer.parseInt(line.substring(2));
 				continue;
 			}
-			if(line.startsWith("r")) {
+			if(line.startsWith("r"))
+			{
 				Room room = new Room(roomNum);
 				int x = roomNum % width;
 				int y = roomNum / width;
 
 				line = line.substring(2);
 
-				if(!line.startsWith("$")) {
+				if(!line.startsWith("$"))
+				{
 					String top = line.substring(0, line.charAt(' '));
 					room.setTop(Integer.parseInt(top));
 				}
 
 				line = line.substring(2);
 
-				if(!line.startsWith("$")) {
+				if(!line.startsWith("$"))
+				{
 					String down = line.substring(0, line.charAt(' '));
 					room.setTop(Integer.parseInt(down));
 				}
 
 				line = line.substring(2);
-				if(!line.startsWith("$")) {
+				if(!line.startsWith("$"))
+				{
 					String left = line.substring(0, line.charAt(' '));
 					room.setTop(Integer.parseInt(left));
 				}
 
 				line = line.substring(2);
-				if(!line.startsWith("$")) {
+				if(!line.startsWith("$"))
+				{
 					String right = line.substring(0, line.charAt(' '));
 					room.setTop(Integer.parseInt(right));
 				}
@@ -117,29 +136,38 @@ public class Loader {
 		FileChooser chooser = new FileChooser(new Filter(), JFileChooser.DIRECTORIES_ONLY, new ActionListener()
 		{
 
-			public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e)
+			{
 				File file = ((JFileChooser)e.getSource()).getCurrentDirectory();
 				String path = file.getAbsolutePath();
 				String output = genOutput();
-				try {
+				try
+				{
 					System.out.println(file.getAbsolutePath());
 					file = new File(path + "/layout.dat");
 					file.createNewFile();
 					FileWriter wr = new FileWriter(file);
 					wr.append(output);
 					wr.close();
-				} catch (IOException e1) {
+				}
+				catch (IOException e1)
+				{
 					e1.printStackTrace();
 				}
 
-				for(int col = 0; col < dungeon.getRooms()[0].length; col++) {
-					for(int row = 0; row < dungeon.getRooms().length; row++) {
+				for(int col = 0; col < dungeon.getRooms()[0].length; col++)
+				{
+					for(int row = 0; row < dungeon.getRooms().length; row++)
+					{
 						BufferedImage bi = genBufferedImageFromRoom(dungeon.getRooms()[row][col]);
 						int id = dungeon.getRooms()[row][col].getId();
 						File loc = new File(file.getParent() + "/room" + id + ".png");
-						try {
+						try
+						{
 							ImageIO.write(bi, "png", loc);
-						} catch (IOException e1) {
+						}
+						catch (IOException e1)
+						{
 							e1.printStackTrace();
 						}
 					}
@@ -147,7 +175,8 @@ public class Loader {
 
 			}
 
-			private String genOutput() {
+			private String genOutput()
+			{
 				String output = "# Dungeon layout";
 				output+=System.getProperty("line.separator");
 				output+=System.getProperty("line.separator");
@@ -160,11 +189,15 @@ public class Loader {
 
 				output+=System.getProperty("line.separator");
 				output+=System.getProperty("line.separator");
-				
-				output+="# Room Links, in the order of" + System.getProperty("line.separator") + "# r UP DOWN LEFT RIGHT\n# Put $ to represent no link" + System.getProperty("line.separator") + "# The first room number is 0" + System.getProperty("line.separator") + "# Room links. start with r";
+
+				output+="# Room Links, in the order of" +
+						System.getProperty("line.separator") + "# r UP DOWN LEFT RIGHT\n# Put $ to represent no link"
+						+ System.getProperty("line.separator") + "# The first room number is 0"
+						+ System.getProperty("line.separator") + "# Room links. start with r";
 				output+=System.getProperty("line.separator");
 				output+=System.getProperty("line.separator");
-				for(int col = 0; col < dungeon.getRooms()[0].length; col++) {
+				for(int col = 0; col < dungeon.getRooms()[0].length; col++)
+				{
 					for(int row = 0; row < dungeon.getRooms().length; row++)
 					{
 						output+="r ";
@@ -211,44 +244,50 @@ public class Loader {
 		});
 	}
 
-	public static BufferedImage genBufferedImageFromRoom(Room room) {
+	public static BufferedImage genBufferedImageFromRoom(Room room)
+	{
 		BufferedImage bi = new BufferedImage(16, 9, BufferedImage.TYPE_INT_RGB);
 
 		for(int row = 0; row < bi.getHeight(); row++) {
 			for(int col = 0; col < bi.getWidth(); col++) {
-				if(row != 0 && row != bi.getHeight()-1 && col != 0 && col != bi.getWidth()-1) {
-					bi.setRGB(col, row, SPACE);
+				if(row != 0 && row != bi.getHeight()-1 && col != 0 && col != bi.getWidth()-1)
+				{
+					bi.setRGB(col, row, TILE);
 				}
 				else {
 					bi.setRGB(col, row, WALL);
 				}
 			}
 		}
-		if(room.getTop() != -1) {
-			for(int i = 7; i < 9; i++) {
-				bi.setRGB(i, 0, SPACE);
+		if(room.getTop() != -1)
+		{
+			for(int i = 7; i < 9; i++)
+			{
+				bi.setRGB(i, 0, TILE);
 			}
 		}
 
-		if(room.getBottom() != -1) {
-			for(int i = 7; i < 9; i++) {
-				bi.setRGB(i, bi.getHeight()-1, SPACE);
+		if(room.getBottom() != -1)
+		{
+			for(int i = 7; i < 9; i++)
+			{
+				bi.setRGB(i, bi.getHeight()-1, TILE);
 			}
 		}
 
-		if(room.getLeft() != -1) {
+		if(room.getLeft() != -1)
+		{
 			for(int i = 3; i < 6; i++) {
-				bi.setRGB(0, i, SPACE);
+				bi.setRGB(0, i, TILE);
 			}
 		}
 
-		if(room.getRight() != -1) {
+		if(room.getRight() != -1)
+		{
 			for(int i = 3; i < 6; i++) {
-				bi.setRGB(bi.getWidth()-1, i, SPACE);
+				bi.setRGB(bi.getWidth()-1, i, TILE);
 			}
 		}
 		return bi;
-
 	}
-
 }

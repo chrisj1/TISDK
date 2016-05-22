@@ -1,5 +1,7 @@
 package sdk.core;
 
+import java.util.ArrayList;
+
 public class Room {
 
 	private int top;
@@ -7,6 +9,7 @@ public class Room {
 	private int left;
 	private int right;
 	private int id;
+	ArrayList<Entity> entities;
 
 	public Room(int id) {
 		this.id = id;

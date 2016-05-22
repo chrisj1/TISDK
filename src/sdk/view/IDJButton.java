@@ -5,51 +5,60 @@ import javax.swing.Icon;
 import javax.swing.JButton;
 
 @SuppressWarnings("serial")
-public class IDJButton extends JButton {
+public class IDJButton extends JButton 
+{
 
 	private int id;
 
-	public IDJButton(int id) {
+	public IDJButton(int id) 
+	{
 		super();
 		this.id = id;
 	}
 
-	public IDJButton() {
+	public IDJButton() 
+	{
 		super();
-		// TODO Auto-generated constructor stub
+		this.id = 0;
 	}
 
-	public IDJButton(Action arg0) {
+	public IDJButton(Action arg0) 
+	{
 		super(arg0);
-		// TODO Auto-generated constructor stub
+		this.id = 0;
 	}
 
-	public IDJButton(Icon arg0) {
+	public IDJButton(Icon arg0) 
+	{
 		super(arg0);
-		// TODO Auto-generated constructor stub
+		this.id = 0;
 	}
 
-	public IDJButton(String arg0, Icon arg1) {
+	public IDJButton(String arg0, Icon arg1) 
+	{
 		super(arg0, arg1);
-		// TODO Auto-generated constructor stub
+		this.id = 0;
 	}
 
-	public IDJButton(String arg0) {
+	public IDJButton(String arg0) 
+	{
 		super(arg0);
-		// TODO Auto-generated constructor stub
+		this.id = 0;
 	}
 
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public int getId() 
+	{
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(int id) 
+	{
 		this.id = id;
 	}
 
