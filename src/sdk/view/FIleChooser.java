@@ -1,8 +1,6 @@
 package sdk.view;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
@@ -21,7 +19,7 @@ public class FileChooser extends JFrame
 	/**
 	 * Create the frame.
 	 */
-	public FileChooser(Filter filter, int type, ActionListener listener)
+	public FileChooser(sdk.view.Filter filter, int type, ActionListener actionListener)
 	{
 		this.setFile(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,7 +30,7 @@ public class FileChooser extends JFrame
 		setContentPane(contentPane);
 		chooser = new JFileChooser();
 		chooser.setDialogType(type);
-		chooser.addActionListener(listener);
+		chooser.addActionListener(actionListener);
 
 		chooser.setFileFilter(filter);
 		contentPane.add(chooser);

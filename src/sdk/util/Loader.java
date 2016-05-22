@@ -20,6 +20,7 @@ import sdk.core.Dungeon;
 import sdk.core.Room;
 import sdk.view.FileChooser;
 import sdk.view.Filter;
+import sdk.core.Entity;
 
 public class Loader
 {
@@ -237,6 +238,15 @@ public class Loader
 							output+= dungeon.getRooms()[row][col].getRight();
 						}
 						output+=System.getProperty("line.separator");
+						for(Entity ent : dungeon.getRooms()[row][col].getEntities())
+						{
+							output+= "e ";
+							output+= ent.getEntityType().getName() + " ";
+							output+=ent.getX();
+							output+=" ";
+							output+=ent.getY();
+							output+=System.getProperty("line.separator");
+						}
 					}
 				}
 				return output;

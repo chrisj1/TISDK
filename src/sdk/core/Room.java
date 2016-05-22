@@ -11,82 +11,106 @@ public class Room {
 	private int id;
 	ArrayList<Entity> entities;
 
-	public Room(int id) {
+	public Room(int id) 
+	{
 		this.id = id;
 		this.bottom = -1;
 		this.left = -1;
 		this.right = -1;
 		this.top = -1;
+		this.entities = new ArrayList<Entity>();
 	}
 
 	/**
 	 * @return the top
 	 */
-	public int getTop() {
+	public int getTop() 
+	{
 		return top;
 	}
 
 	/**
 	 * @return the bottom
 	 */
-	public int getBottom() {
+	public int getBottom() 
+	{
 		return bottom;
 	}
 
 	/**
 	 * @return the left
 	 */
-	public int getLeft() {
+	public int getLeft() 
+	{
 		return left;
 	}
 
 	/**
 	 * @return the right
 	 */
-	public int getRight() {
+	public int getRight() 
+	{
 		return right;
 	}
 
 	/**
 	 * @return the id
 	 */
-	public int getId() {
+	public int getId() 
+	{
 		return id;
 	}
 
 	/**
 	 * @param top the top to set
 	 */
-	public void setTop(int top) {
+	public void setTop(int top)
+	{
 		this.top = top;
 	}
 
 	/**
 	 * @param bottom the bottom to set
 	 */
-	public void setBottom(int bottom) {
+	public void setBottom(int bottom) 
+	{
 		this.bottom = bottom;
 	}
 
 	/**
 	 * @param left the left to set
 	 */
-	public void setLeft(int left) {
+	public void setLeft(int left) 
+	{
 		this.left = left;
 	}
 
 	/**
 	 * @param right the right to set
 	 */
-	public void setRight(int right) {
+	public void setRight(int right) 
+	{
 		this.right = right;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) {
+	public void setId(int id) 
+	{
 		this.id = id;
+	}
+
+	public void addEntity(Entity ent) 
+	{
+		this.entities.add(ent);
+	}
+
+	/**
+	 * @return the entities
+	 */
+	public ArrayList<Entity> getEntities() {
+		return entities;
 	}
 
 	

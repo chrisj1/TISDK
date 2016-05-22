@@ -398,7 +398,9 @@ public class DungeonViewer
 	{
 		int id = button.getId();
 		Room room = findRoomByID(id);
-		Entity ent = new Entity(entityAdding, id, id, id, id);
+		System.out.println(entityAdding);
+		Entity ent = new Entity(entityAdding, 10, 10, 100, 100);
+		room.addEntity(ent);
 	}
 
 	private void handleDisconnecting(MouseEvent arg0, IDJButton button)
