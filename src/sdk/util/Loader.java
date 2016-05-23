@@ -132,7 +132,7 @@ public class Loader
 		return null;
 	}
 
-	public static void saveDungeon(Dungeon dungeon) {
+	public static void saveDungeon(final Dungeon dungeon) {
 
 		FileChooser chooser = new FileChooser(new Filter(), JFileChooser.DIRECTORIES_ONLY, new ActionListener()
 		{
@@ -160,16 +160,23 @@ public class Loader
 				{
 					for(int row = 0; row < dungeon.getRooms().length; row++)
 					{
-						BufferedImage bi = genBufferedImageFromRoom(dungeon.getRooms()[row][col]);
-						int id = dungeon.getRooms()[row][col].getId();
-						File loc = new File(file.getParent() + "/room" + id + ".png");
-						try
+						Room room = dungeon.getRooms()[row][col];
+						System.out.println(room);
+						if(room.hasConnections())
 						{
-							ImageIO.write(bi, "png", loc);
-						}
-						catch (IOException e1)
-						{
-							e1.printStackTrace();
+							System.out.println(room);
+							BufferedImage bi = genBufferedImageFromRoom(dungeon.getRooms()[row][col]);
+							int id = room.getId();
+							File loc = new File(file.getParent() + "/room" + id + ".png");
+							try
+							{
+								System.out.println(loc);
+								ImageIO.write(bi, "png", loc);
+							}
+							catch (IOException e1)
+							{
+								e1.printStackTrace();
+							}
 						}
 					}
 				}

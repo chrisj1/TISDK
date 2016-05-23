@@ -21,12 +21,28 @@ public class Room {
 		this.entities = new ArrayList<Entity>();
 	}
 
+	public boolean hasConnections()
+	{
+		return getTop() != -1 || 
+				getRight() != -1 ||
+				getLeft() != -1 || 
+				getBottom() != -1;
+	}
+	
+	
 	/**
 	 * @return the top
 	 */
 	public int getTop() 
 	{
 		return top;
+	}
+
+	@Override
+	public String toString() {
+		return "Room [top=" + top + ", bottom=" + bottom + ", left=" + left
+				+ ", right=" + right + ", id=" + id + ", entities=" + entities
+				+ "]";
 	}
 
 	/**
