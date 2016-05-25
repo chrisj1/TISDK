@@ -13,9 +13,7 @@ public class Filter extends FileFilter
 	}
 
 	@Override
-	public String getDescription() 
-	{
-		return "A dungeon data file";
+	public String getDescription() {
+		return "";
 	}
-
 }

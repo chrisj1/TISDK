@@ -2,10 +2,9 @@ package sdk.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Rectangle;
+import java.awt.Graphics;
 import java.awt.Toolkit;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.swing.Icon;
@@ -67,27 +66,23 @@ public class Editor
 		frame.getContentPane().setBackground(Color.BLACK);
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 * @throws IOException
-	 */
 	private void drawFirstRoom() throws IOException
 	{
 		Room room = new Room(0);
-		RoomButton rb = new RoomButton(room);
-		JLabel label = new JLabel();
-		Icon icon = Drawing.genIconFromRoom(room, 0);
-		label.setIcon(icon);
-		rb.setVisible(true);
+		BufferedImage bi = Drawing.genBufferedImageFromRoom(room, 0);
 		frame.getContentPane().setLayout(null);
-		rb.add(label);
-		JPanel panel = new JPanel();
-		int x = WIDTH/2- icon.getIconWidth()/2;
-		int y = HEIGHT/2 - icon.getIconHeight()/2;
-		panel.setBounds(x,y,icon.getIconWidth()+30, icon.getIconHeight()+30);
-		panel.add(rb);
-		rb.addMouseListener(new ContextListener());
-		frame.getContentPane().add(panel);
+		JPanel pane = new JPanel() {
+			@Override
+			protected void paintComponent(Graphics g) {
+				super.paintComponent(g);
+				g.drawImage(bi, 0, 0, null);
+			}
+		};
+		int x = WIDTH/2- bi.getWidth()/2;
+		int y = HEIGHT/2 - bi.getHeight()/2;
+		pane.setBounds(x,y,bi.getWidth(), bi.getHeight());
+		pane.addMouseListener(new ContextListener());
+		frame.getContentPane().add(pane);
 
 	}
 
@@ -98,7 +93,7 @@ public class Editor
 
 	private void drawRoom()
 	{
-
+		
 	}
 
 	public RoomButton[] getRooms() {

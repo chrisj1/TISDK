@@ -6,12 +6,9 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 
 import sdk.core.Room;
 
@@ -20,8 +17,13 @@ public class Drawing {
 	public static final int WIDTH = 32*16;
 	public static final int HEIGHT = 32*9;
 
-	public static Icon genIconFromRoom(Room room, int num) throws IOException
+	public static BufferedImage genBufferedImageFromRoom(Room room, int num) throws IOException
 	{
+		room.setTop(1);
+		room.setBottom(1);
+		room.setRight(1);
+		room.setLeft(1);
+		
 		System.out.println("WIDTH: " + WIDTH);
 		System.out.println("HEIGTH: " + HEIGHT);
 
@@ -32,13 +34,99 @@ public class Drawing {
 		BufferedImage bi = fillRoom(floor);
 		bi = outlineRoom(wall, bi);
 		bi = drawNumberOnRoom(bi, num);
-		bi = toBufferedImage(bi.getScaledInstance(bi.getWidth()/2, bi.getHeight()/2, BufferedImage.SCALE_SMOOTH));
-		
-		ImageIO.write(bi, "png", new File("room123.png"));
-		Icon icon = new ImageIcon(bi);
-		return icon;
+		bi = addEntrances(bi, room, floor);	
+		bi = toBufferedImage(bi.getScaledInstance(bi.getWidth()/4, bi.getHeight()/4, BufferedImage.SCALE_SMOOTH));
+		return bi;
 	}
 	
+	private static BufferedImage addEntrances(BufferedImage bi, Room room, BufferedImage floor) 
+	{
+		System.out.println(bi);
+			if(room.getTop() != -1)
+			{
+				for (int row = 0; row < 32; row+=32) 
+				{
+					for (int col = WIDTH/2 - WIDTH/6; col < WIDTH/2 + WIDTH/6; col+=32) 
+					{
+						for(int iCol = 0; iCol < 32; iCol++)
+						{
+							for(int iRow = 0; iRow < 32; iRow++ )
+							{
+								int x = col+iCol;
+								int y = row+iRow;
+								Color color = new Color(floor.getRGB(iCol, iRow));
+								bi.setRGB(x, y, color.getRGB());
+							}
+						}
+					}
+				}
+			}
+			
+			if(room.getBottom() != -1)
+			{
+				for (int row = bi.getHeight()-32; row < bi.getHeight(); row+=32) 
+				{
+					for (int col = WIDTH/2 - WIDTH/6; col < WIDTH/2 + WIDTH/6; col+=32) 
+					{
+						for(int iCol = 0; iCol < 32; iCol++)
+						{
+							for(int iRow = 0; iRow < 32; iRow++ )
+							{
+								int x = col+iCol;
+								int y = row+iRow;
+								Color color = new Color(floor.getRGB(iCol, iRow));
+								System.out.println("X: " + x + " Y: " + y);
+								bi.setRGB(x, y, color.getRGB());
+							}
+						}
+					}
+				}
+			}
+			
+			if(room.getLeft() != -1)
+			{
+				for (int row = HEIGHT/2 - HEIGHT/6; row < HEIGHT/2 + HEIGHT/6; row+=32) 
+				{
+					for (int col = 0; col < 32; col+=32) 
+					{
+						for(int iCol = 0; iCol < 32; iCol++)
+						{
+							for(int iRow = 0; iRow < 32; iRow++ )
+							{
+								int x = col+iCol;
+								int y = row+iRow;
+								Color color = new Color(floor.getRGB(iCol, iRow));
+								System.out.println("X: " + x + " Y: " + y);
+								bi.setRGB(x, y, color.getRGB());
+							}
+						}
+					}
+				}
+			}
+			
+			if(room.getLeft() != -1)
+			{
+				for (int row = HEIGHT/2 - HEIGHT/6; row < HEIGHT/2 + HEIGHT/6; row+=32) 
+				{
+					for (int col = bi.getWidth()-32; col < bi.getWidth(); col+=32) 
+					{
+						for(int iCol = 0; iCol < 32; iCol++)
+						{
+							for(int iRow = 0; iRow < 32; iRow++ )
+							{
+								int x = col+iCol;
+								int y = row+iRow;
+								Color color = new Color(floor.getRGB(iCol, iRow));
+								System.out.println("X: " + x + " Y: " + y);
+								bi.setRGB(x, y, color.getRGB());
+							}
+						}
+					}
+				}
+			}
+			return bi;
+	}
+
 	/**
 	 * Converts a given Image into a BufferedImage
 	 *
