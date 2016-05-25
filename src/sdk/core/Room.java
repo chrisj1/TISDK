@@ -10,6 +10,9 @@ public class Room {
 	private int right;
 	private int id;
 	ArrayList<Entity> entities;
+	
+	private int x;
+	private int y;
 
 	public Room(int id) 
 	{
@@ -127,6 +130,22 @@ public class Room {
 	 */
 	public ArrayList<Entity> getEntities() {
 		return entities;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setY(int y) {
+		this.y = y;
 	}
 
 	

@@ -54,25 +54,6 @@ public class DungeonViewer
 	static boolean firstDraw = true;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args)
-	{
-		EventQueue.invokeLater(new Runnable()
-		{
-			public void run()
-			{
-				try {
-					DungeonViewer window = new DungeonViewer();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the application.
 	 */
 	public DungeonViewer()
