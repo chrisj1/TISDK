@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,17 +20,6 @@ public class Drawing {
 	public static final int WIDTH = 32*16;
 	public static final int HEIGHT = 32*9;
 
-	public static void main(String[] args)
-	{
-		Room room = new Room(10);
-		try {
-			genIconFromRoom(room, room.getId());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-
 	public static Icon genIconFromRoom(Room room, int num) throws IOException
 	{
 		System.out.println("WIDTH: " + WIDTH);
@@ -42,10 +32,33 @@ public class Drawing {
 		BufferedImage bi = fillRoom(floor);
 		bi = outlineRoom(wall, bi);
 		bi = drawNumberOnRoom(bi, num);
-
+		bi = toBufferedImage(bi.getScaledInstance(bi.getWidth()/2, bi.getHeight()/2, BufferedImage.SCALE_SMOOTH));
+		
 		ImageIO.write(bi, "png", new File("room123.png"));
 		Icon icon = new ImageIcon(bi);
 		return icon;
+	}
+	
+	/**
+	 * Converts a given Image into a BufferedImage
+	 *
+	 * @param img The Image to be converted
+	 * @return The converted BufferedImage
+	 */
+	public static BufferedImage toBufferedImage(Image img)
+	{
+	    if (img instanceof BufferedImage)
+	    {
+	        return (BufferedImage) img;
+	    }
+
+	    BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+	    Graphics2D bGr = bimage.createGraphics();
+	    bGr.drawImage(img, 0, 0, null);
+	    bGr.dispose();
+
+	    return bimage;
 	}
 
 	private static BufferedImage fillRoom(BufferedImage floor)
