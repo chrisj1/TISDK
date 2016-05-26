@@ -3,6 +3,7 @@ package sdk.view;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
@@ -35,7 +36,11 @@ public class ContextMenu extends JPopupMenu {
 				
 				RoomPanel panel = new RoomPanel(room);
 				panel.setBounds(bounds);
-				Editor.getEditor().addRoom(panel);
+				try {
+					Editor.getEditor().addRoom(panel);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
         	
         });

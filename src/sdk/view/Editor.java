@@ -3,6 +3,7 @@ package sdk.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
@@ -22,6 +23,9 @@ public class Editor
 
 	public static final int WIDTH = 1920;
 	public static final int HEIGHT = 1080;
+
+	public static final int ROOM_WIDTH = WIDTH/10;
+	public static final int ROOM_HEIGHT = HEIGHT/10;
 
 	private int lowestX;
 	private int highestX;
@@ -74,7 +78,10 @@ public class Editor
 	private void drawFirstRoom() throws IOException
 	{
 		Room room = new Room(0, new Rectangle());
-		BufferedImage bi = Drawer.genBufferedImageFromRoom(room, 0);
+		//MUST be done in one line or will not compile do to
+		//inner class
+		BufferedImage bi =  Drawer.toBufferedImage(Drawer.genBufferedImageFromRoom(room, 0)
+				.getScaledInstance(ROOM_WIDTH, ROOM_HEIGHT, BufferedImage.SCALE_FAST));
 		frame.getContentPane().setLayout(null);
 		RoomPanel pane = new RoomPanel(room) {
 			@Override
@@ -98,7 +105,7 @@ public class Editor
 		frame.setVisible(true);
 	}
 
-	public void addRoom(RoomPanel room)
+	public void addRoom(RoomPanel room) throws IOException
 	{
 		for(RoomPanel panel : this.rooms)
 		{
@@ -107,8 +114,10 @@ public class Editor
 				System.out.println("Panel already exists or intersects");
 				return;
 			}
-			
+
 		}
+
+		Image bi = Drawer.genBufferedImageFromRoom(room.getRoom(), rooms.size()-1).getScaledInstance(ROOM_WIDTH, ROOM_HEIGHT, BufferedImage.SCALE_FAST);
 
 		RoomPanel pane = new RoomPanel(room.getRoom())
 		{
@@ -116,12 +125,7 @@ public class Editor
 			protected void paintComponent(Graphics g)
 			{
 				super.paintComponent(g);
-				try {
-					g.drawImage(Drawer.genBufferedImageFromRoom(getRoom(), rooms.size()-1), 0, 0, null);
-				}
-				catch (IOException e)
-				{
-				}
+				g.drawImage(bi, 0, 0, null);
 			}
 		};
 		pane.setBounds(room.getBounds());
@@ -131,19 +135,19 @@ public class Editor
 	}
 
 
-		public ArrayList<RoomPanel> getRooms() {
-			return rooms;
-		}
-
-		public void setRooms(ArrayList<RoomPanel> rooms) {
-			this.rooms = rooms;
-		}
-
-		public static Editor getEditor() {
-			return editor;
-		}
-
-		public static void setEditor(Editor editor) {
-			Editor.editor = editor;
-		}
+	public ArrayList<RoomPanel> getRooms() {
+		return rooms;
 	}
+
+	public void setRooms(ArrayList<RoomPanel> rooms) {
+		this.rooms = rooms;
+	}
+
+	public static Editor getEditor() {
+		return editor;
+	}
+
+	public static void setEditor(Editor editor) {
+		Editor.editor = editor;
+	}
+}

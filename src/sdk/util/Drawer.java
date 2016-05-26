@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
@@ -19,9 +20,22 @@ public class Drawer {
 
 	private static BufferedImage wall;
 	private static BufferedImage floor;
+	
+	private static HashMap<Short, BufferedImage> existingRooms;
 
 	public static BufferedImage genBufferedImageFromRoom(Room room, int num) throws IOException
 	{
+		long start = System.nanoTime();
+		if(existingRooms == null)
+		{
+			existingRooms = new HashMap<Short, BufferedImage>();
+		}
+		else if(existingRooms.containsKey(roomToInteger(room)))
+		{
+			System.out.println((start - System.nanoTime()) / 10E9);
+			return existingRooms.get(roomToInteger(room));
+		}
+		
 		if(floor == null || wall == null)
 		{
 			floor = ImageIO.read(Drawer.class.getResourceAsStream("/assets/floor.png"));
@@ -35,9 +49,34 @@ public class Drawer {
 
 		BufferedImage bi = fillRoom(floor);
 		bi = outlineRoom(wall, bi);
-		bi = drawNumberOnRoom(bi, num);
 		bi = addEntrances(bi, room, floor);
+		
+		short id = roomToInteger(room);
+		existingRooms.put(id, bi);
+		System.out.println((start - System.nanoTime()) / 10E9);
 		return bi;
+	}
+
+	private static Short roomToInteger(Room room) 
+	{
+		short id = 0;
+		if(room.getTop() != -1)
+		{
+			id+=1;
+		}
+		else if(room.getRight() != -1)
+		{
+			id+=10;
+		}
+		else if(room.getBottom() != -1)
+		{
+			id+=100;
+		}
+		else if(room.getLeft() != -1)
+		{
+			id+=1000;
+		}
+		return id;
 	}
 
 	private static BufferedImage addEntrances(BufferedImage bi, Room room, BufferedImage floor)
