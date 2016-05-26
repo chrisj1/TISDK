@@ -16,7 +16,7 @@ public class Drawer {
 
 	public static final int WIDTH = 32*16;
 	public static final int HEIGHT = 32*9;
-	
+
 	private static BufferedImage wall;
 	private static BufferedImage floor;
 
@@ -27,7 +27,7 @@ public class Drawer {
 			floor = ImageIO.read(Drawer.class.getResourceAsStream("/assets/floor.png"));
 			wall = ImageIO.read(Drawer.class.getResourceAsStream("/assets/wall.png"));
 		}
-		
+
 		System.out.println("WIDTH: " + WIDTH);
 		System.out.println("HEIGTH: " + HEIGHT);
 
@@ -36,18 +36,18 @@ public class Drawer {
 		BufferedImage bi = fillRoom(floor);
 		bi = outlineRoom(wall, bi);
 		bi = drawNumberOnRoom(bi, num);
-		bi = addEntrances(bi, room, floor);	
+		bi = addEntrances(bi, room, floor);
 		return bi;
 	}
-	
-	private static BufferedImage addEntrances(BufferedImage bi, Room room, BufferedImage floor) 
+
+	private static BufferedImage addEntrances(BufferedImage bi, Room room, BufferedImage floor)
 	{
 		System.out.println(bi);
 			if(room.getTop() != -1)
 			{
-				for (int row = 0; row < 32; row+=32) 
+				for (int row = 0; row < 32; row+=32)
 				{
-					for (int col = WIDTH/2 - WIDTH/6; col < WIDTH/2 + WIDTH/6; col+=32) 
+					for (int col = WIDTH/2 - WIDTH/6; col < WIDTH/2 + WIDTH/6; col+=32)
 					{
 						for(int iCol = 0; iCol < 32; iCol++)
 						{
@@ -62,12 +62,12 @@ public class Drawer {
 					}
 				}
 			}
-			
+
 			if(room.getBottom() != -1)
 			{
-				for (int row = bi.getHeight()-32; row < bi.getHeight(); row+=32) 
+				for (int row = bi.getHeight()-32; row < bi.getHeight(); row+=32)
 				{
-					for (int col = WIDTH/2 - WIDTH/6; col < WIDTH/2 + WIDTH/6; col+=32) 
+					for (int col = WIDTH/2 - WIDTH/6; col < WIDTH/2 + WIDTH/6; col+=32)
 					{
 						for(int iCol = 0; iCol < 32; iCol++)
 						{
@@ -83,12 +83,12 @@ public class Drawer {
 					}
 				}
 			}
-			
+
 			if(room.getLeft() != -1)
 			{
-				for (int row = HEIGHT/2 - HEIGHT/6; row < HEIGHT/2 + HEIGHT/6; row+=32) 
+				for (int row = HEIGHT/2 - HEIGHT/6; row < HEIGHT/2 + HEIGHT/6; row+=32)
 				{
-					for (int col = 0; col < 32; col+=32) 
+					for (int col = 0; col < 32; col+=32)
 					{
 						for(int iCol = 0; iCol < 32; iCol++)
 						{
@@ -103,12 +103,12 @@ public class Drawer {
 					}
 				}
 			}
-			
+
 			if(room.getLeft() != -1)
 			{
-				for (int row = HEIGHT/2 - HEIGHT/6; row < HEIGHT/2 + HEIGHT/6; row+=32) 
+				for (int row = HEIGHT/2 - HEIGHT/6; row < HEIGHT/2 + HEIGHT/6; row+=32)
 				{
-					for (int col = bi.getWidth()-32; col < bi.getWidth(); col+=32) 
+					for (int col = bi.getWidth()-32; col < bi.getWidth(); col+=32)
 					{
 						for(int iCol = 0; iCol < 32; iCol++)
 						{
