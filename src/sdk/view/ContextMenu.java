@@ -182,7 +182,7 @@ public class ContextMenu extends JPopupMenu
 				@Override
 				public void actionPerformed(ActionEvent arg0) 
 				{
-					RoomPanel right = RoomUtils.findRoomOnScreen(x + Editor.ROOM_WIDTH, y);
+					RoomPanel right = RoomUtils.findRoomOnScreen(x + Editor.ROOM_WIDTH + 1, y + 1);
 					System.out.println(room);
 					System.out.println(right);
 					room.getRoom().setRight(right.getRoom().getId());
@@ -201,7 +201,7 @@ public class ContextMenu extends JPopupMenu
         	{
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					RoomPanel left = RoomUtils.findRoomOnScreen(x - Editor.ROOM_WIDTH, y);
+					RoomPanel left = RoomUtils.findRoomOnScreen(x - Editor.ROOM_WIDTH + 1, y + 1);
 					System.out.println(room);
 					System.out.println(left);
 					room.getRoom().setLeft(left.getRoom().getId());

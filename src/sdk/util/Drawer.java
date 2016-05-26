@@ -20,7 +20,7 @@ public class Drawer {
 
 	private static BufferedImage wall;
 	private static BufferedImage floor;
-	
+
 	private static HashMap<Short, BufferedImage> existingRooms;
 
 	public static BufferedImage genBufferedImageFromRoom(Room room, int num) throws IOException
@@ -35,7 +35,7 @@ public class Drawer {
 			System.out.println((start - System.nanoTime()) / 10E9);
 			return existingRooms.get(roomToInteger(room));
 		}
-		
+
 		if(floor == null || wall == null)
 		{
 			floor = ImageIO.read(Drawer.class.getResourceAsStream("/assets/floor.png"));
@@ -45,14 +45,14 @@ public class Drawer {
 		BufferedImage bi = fillRoom(floor);
 		bi = outlineRoom(wall, bi);
 		bi = addEntrances(bi, room, floor);
-		
+
 		short id = roomToInteger(room);
 		existingRooms.put(id, bi);
 		System.out.println((System.nanoTime() - start) / 10E9);
 		return bi;
 	}
 
-	private static Short roomToInteger(Room room) 
+	private static Short roomToInteger(Room room)
 	{
 		short id = 0;
 		if(room.getTop() != -1)
@@ -136,7 +136,7 @@ public class Drawer {
 				}
 			}
 
-			if(room.getLeft() != -1)
+			if(room.getRight() != -1)
 			{
 				for (int row = HEIGHT/2 - HEIGHT/6; row < HEIGHT/2 + HEIGHT/6; row+=32)
 				{
