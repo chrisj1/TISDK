@@ -147,6 +147,17 @@ public class Room {
 
 	public void setY(int y) {
 		this.y = y;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		Room room2 = (Room) obj;
+		return (top == room2.getTop() && bottom == room2.getBottom() &&
+				left == room2.getLeft() && right == room2.getRight() &&
+				id == room2.getId());
 	}	
 
 }

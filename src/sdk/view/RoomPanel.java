@@ -51,6 +51,14 @@ public class RoomPanel extends JPanel {
 	public void setRoom(Room room) {
 		this.room = room;
 	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return "RoomPanel [room=" + room + ", image=" + image + ", bounds=" + getBounds() + "]";
+	}
 	
 	
 	

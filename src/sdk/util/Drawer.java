@@ -30,7 +30,7 @@ public class Drawer {
 		{
 			existingRooms = new HashMap<Short, BufferedImage>();
 		}
-		else if(existingRooms.containsKey(roomToInteger(room)))
+		else if(false && existingRooms.containsKey(roomToInteger(room)))
 		{
 			System.out.println((start - System.nanoTime()) / 10E9);
 			return existingRooms.get(roomToInteger(room));
@@ -42,18 +42,13 @@ public class Drawer {
 			wall = ImageIO.read(Drawer.class.getResourceAsStream("/assets/wall.png"));
 		}
 
-		System.out.println("WIDTH: " + WIDTH);
-		System.out.println("HEIGTH: " + HEIGHT);
-
-
-
 		BufferedImage bi = fillRoom(floor);
 		bi = outlineRoom(wall, bi);
 		bi = addEntrances(bi, room, floor);
 		
 		short id = roomToInteger(room);
 		existingRooms.put(id, bi);
-		System.out.println((start - System.nanoTime()) / 10E9);
+		System.out.println((System.nanoTime() - start) / 10E9);
 		return bi;
 	}
 
@@ -81,7 +76,6 @@ public class Drawer {
 
 	private static BufferedImage addEntrances(BufferedImage bi, Room room, BufferedImage floor)
 	{
-		System.out.println(bi);
 			if(room.getTop() != -1)
 			{
 				for (int row = 0; row < 32; row+=32)
@@ -115,7 +109,6 @@ public class Drawer {
 								int x = col+iCol;
 								int y = row+iRow;
 								Color color = new Color(floor.getRGB(iCol, iRow));
-								System.out.println("X: " + x + " Y: " + y);
 								bi.setRGB(x, y, color.getRGB());
 							}
 						}
