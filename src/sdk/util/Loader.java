@@ -16,15 +16,16 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 
+import sdk.components.FileChooser;
 import sdk.core.Dungeon;
 import sdk.core.Room;
-import sdk.view.FileChooser;
 import sdk.view.Filter;
 import sdk.core.Entity;
 
 public class Loader
 {
 
+	/*
 	public static final int WALL = new Color(6,6,255).getRGB();
 	public static final int TILE = new Color(1,1,0).getRGB();
 
@@ -307,4 +308,5 @@ public class Loader
 		}
 		return bi;
 	}
+	*/
 }

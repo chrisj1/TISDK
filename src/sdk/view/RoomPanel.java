@@ -1,14 +1,18 @@
 package sdk.view;
 
-import javax.swing.JButton;
+import java.awt.LayoutManager;
+
+import javax.swing.JPanel;
 
 import sdk.core.Room;
 
-public class RoomButton extends JButton {
+public class RoomPanel extends JPanel {
 
 	private Room room;
-
-	public RoomButton(Room room) {
+	
+	
+	public RoomPanel(Room room) {
+		super();
 		this.room = room;
 	}
 
@@ -19,6 +23,7 @@ public class RoomButton extends JButton {
 	public void setRoom(Room room) {
 		this.room = room;
 	}
-
+	
+	
 	
 }

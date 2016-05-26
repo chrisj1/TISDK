@@ -3,20 +3,22 @@ package sdk.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 
-import javax.swing.Icon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import sdk.core.Room;
-import sdk.util.Drawing;
+import sdk.util.Drawer;
 
 public class Editor
 {
+
+	private static Editor editor;
 
 	public static final int WIDTH = 1920;
 	public static final int HEIGHT = 1080;
@@ -28,7 +30,7 @@ public class Editor
 
 	private JFrame frame;
 
-	private RoomButton[] rooms;
+	private ArrayList<RoomPanel> rooms;
 
 	/**
 	 * Create the application.
@@ -39,6 +41,7 @@ public class Editor
 		this.lowestY = 0;
 		this.highestX = 0;
 		this.highestY = 0;
+		this.rooms = new ArrayList<RoomPanel>();
 
 		setUpFrame();
 		try {
@@ -48,6 +51,8 @@ public class Editor
 		}
 
 		finalizeFrame();
+
+		setEditor(this);
 	}
 
 	private void setUpFrame()
@@ -68,12 +73,13 @@ public class Editor
 
 	private void drawFirstRoom() throws IOException
 	{
-		Room room = new Room(0);
-		BufferedImage bi = Drawing.genBufferedImageFromRoom(room, 0);
+		Room room = new Room(0, new Rectangle());
+		BufferedImage bi = Drawer.genBufferedImageFromRoom(room, 0);
 		frame.getContentPane().setLayout(null);
-		JPanel pane = new JPanel() {
+		RoomPanel pane = new RoomPanel(room) {
 			@Override
-			protected void paintComponent(Graphics g) {
+			protected void paintComponent(Graphics g)
+			{
 				super.paintComponent(g);
 				g.drawImage(bi, 0, 0, null);
 			}
@@ -83,6 +89,7 @@ public class Editor
 		pane.setBounds(x,y,bi.getWidth(), bi.getHeight());
 		pane.addMouseListener(new ContextListener());
 		frame.getContentPane().add(pane);
+		rooms.add(pane);
 
 	}
 
@@ -91,16 +98,52 @@ public class Editor
 		frame.setVisible(true);
 	}
 
-	private void drawRoom()
+	public void addRoom(RoomPanel room)
 	{
-		
+		for(RoomPanel panel : this.rooms)
+		{
+			if(panel.getBounds().intersects(room.getBounds()))
+			{
+				System.out.println("Panel already exists or intersects");
+				return;
+			}
+			
+		}
+
+		RoomPanel pane = new RoomPanel(room.getRoom())
+		{
+			@Override
+			protected void paintComponent(Graphics g)
+			{
+				super.paintComponent(g);
+				try {
+					g.drawImage(Drawer.genBufferedImageFromRoom(getRoom(), rooms.size()-1), 0, 0, null);
+				}
+				catch (IOException e)
+				{
+				}
+			}
+		};
+		pane.setBounds(room.getBounds());
+		pane.addMouseListener(new ContextListener());
+		frame.getContentPane().add(pane);
+		rooms.add(pane);
 	}
 
-	public RoomButton[] getRooms() {
-		return rooms;
-	}
 
-	public void setRooms(RoomButton[] rooms) {
-		this.rooms = rooms;
+		public ArrayList<RoomPanel> getRooms() {
+			return rooms;
+		}
+
+		public void setRooms(ArrayList<RoomPanel> rooms) {
+			this.rooms = rooms;
+		}
+
+		public static Editor getEditor() {
+			return editor;
+		}
+
+		public static void setEditor(Editor editor) {
+			Editor.editor = editor;
+		}
 	}
-}

@@ -1,4 +1,4 @@
-package sdk.view;
+package sdk.components;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
@@ -8,6 +8,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import sdk.view.Filter;
 
 public class FileChooser extends JFrame
 {

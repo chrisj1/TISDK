@@ -12,30 +12,31 @@ import javax.imageio.ImageIO;
 
 import sdk.core.Room;
 
-public class Drawing {
+public class Drawer {
 
 	public static final int WIDTH = 32*16;
 	public static final int HEIGHT = 32*9;
+	
+	private static BufferedImage wall;
+	private static BufferedImage floor;
 
 	public static BufferedImage genBufferedImageFromRoom(Room room, int num) throws IOException
 	{
-		room.setTop(1);
-		room.setBottom(1);
-		room.setRight(1);
-		room.setLeft(1);
+		if(floor == null || wall == null)
+		{
+			floor = ImageIO.read(Drawer.class.getResourceAsStream("/assets/floor.png"));
+			wall = ImageIO.read(Drawer.class.getResourceAsStream("/assets/wall.png"));
+		}
 		
 		System.out.println("WIDTH: " + WIDTH);
 		System.out.println("HEIGTH: " + HEIGHT);
 
-		BufferedImage floor = ImageIO.read(Drawing.class.getResourceAsStream("/assets/floor.png"));
-		BufferedImage wall = ImageIO.read(Drawing.class.getResourceAsStream("/assets/wall.png"));
 
 
 		BufferedImage bi = fillRoom(floor);
 		bi = outlineRoom(wall, bi);
 		bi = drawNumberOnRoom(bi, num);
 		bi = addEntrances(bi, room, floor);	
-		bi = toBufferedImage(bi.getScaledInstance(bi.getWidth()/4, bi.getHeight()/4, BufferedImage.SCALE_SMOOTH));
 		return bi;
 	}
 	
@@ -96,7 +97,6 @@ public class Drawing {
 								int x = col+iCol;
 								int y = row+iRow;
 								Color color = new Color(floor.getRGB(iCol, iRow));
-								System.out.println("X: " + x + " Y: " + y);
 								bi.setRGB(x, y, color.getRGB());
 							}
 						}
@@ -117,7 +117,6 @@ public class Drawing {
 								int x = col+iCol;
 								int y = row+iRow;
 								Color color = new Color(floor.getRGB(iCol, iRow));
-								System.out.println("X: " + x + " Y: " + y);
 								bi.setRGB(x, y, color.getRGB());
 							}
 						}

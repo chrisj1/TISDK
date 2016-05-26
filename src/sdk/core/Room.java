@@ -1,5 +1,6 @@
 package sdk.core;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 public class Room {
@@ -14,7 +15,7 @@ public class Room {
 	private int x;
 	private int y;
 
-	public Room(int id) 
+	public Room(int id, Rectangle bounds) 
 	{
 		this.id = id;
 		this.bottom = -1;
@@ -146,8 +147,6 @@ public class Room {
 
 	public void setY(int y) {
 		this.y = y;
-	}
-
-	
+	}	
 
 }
