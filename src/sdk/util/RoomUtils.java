@@ -9,7 +9,7 @@ import sdk.view.RoomPanel;
 public class RoomUtils
 {
 
-	private Room findRoomOnScreen(int x, int y)
+	public static Room findRoomOnScreen(int x, int y)
 	{
 		for(RoomPanel room: Editor.getEditor().getRooms())
 		{

@@ -9,6 +9,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import sdk.core.Room;
+import sdk.util.RoomUtils;
 
 public class ContextMenu extends JPopupMenu {
 
@@ -17,14 +18,13 @@ public class ContextMenu extends JPopupMenu {
 	JMenuItem addRoomRight;
 	JMenuItem addRoomLeft;
 
-    public ContextMenu(RoomPanel room){
+    public ContextMenu(final RoomPanel room){
         addRoomAbove = new JMenuItem("Add Room Above");
         addRoomAbove.addActionListener(new ActionListener()
         {
 			@Override
 			public void actionPerformed(ActionEvent e)
 			{
-				System.out.println("Adding room");
 				int id = Editor.getEditor().getRooms().size()-1;
 				Rectangle panelBounds = room.getBounds();
 
@@ -47,12 +47,94 @@ public class ContextMenu extends JPopupMenu {
         add(addRoomAbove);
 
         addRoomBelow = new JMenuItem("Add Room Below");
+        addRoomBelow.addActionListener(new ActionListener()
+        {
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				int id = Editor.getEditor().getRooms().size()-1;
+				Rectangle panelBounds = room.getBounds();
+
+				int x = (int) panelBounds.getX();
+				int y = (int) (panelBounds.getY() + panelBounds.getHeight());
+				Rectangle bounds = new Rectangle(x,y, (int)panelBounds.getWidth(), (int)panelBounds.getHeight());
+
+				Room room = new Room(id, bounds);
+
+				RoomPanel panel = new RoomPanel(room);
+				panel.setBounds(bounds);
+				try {
+					Editor.getEditor().addRoom(panel);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+
+        });
         add(addRoomBelow);
 
-        addRoomBelow = new JMenuItem("Add Room Right");
-        add(addRoomBelow);
+        addRoomRight = new JMenuItem("Add Room Right");
+        addRoomRight.addActionListener(new ActionListener()
+        {
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				int id = Editor.getEditor().getRooms().size()-1;
+				Rectangle panelBounds = room.getBounds();
 
-        addRoomBelow= new JMenuItem("Add Room Left");
-        add(addRoomBelow);
+				int x = (int) (panelBounds.getX() + panelBounds.getWidth());
+				int y = (int) (panelBounds.getY());
+				Rectangle bounds = new Rectangle(x,y, (int)panelBounds.getWidth(), (int)panelBounds.getHeight());
+
+				Room room = new Room(id, bounds);
+
+				RoomPanel panel = new RoomPanel(room);
+				panel.setBounds(bounds);
+				try {
+					Editor.getEditor().addRoom(panel);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+
+        });
+        add(addRoomRight);
+
+        addRoomLeft= new JMenuItem("Add Room Left");
+        addRoomLeft.addActionListener(new ActionListener()
+        {
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				int id = Editor.getEditor().getRooms().size()-1;
+				Rectangle panelBounds = room.getBounds();
+
+				int x = (int) (panelBounds.getX() - panelBounds.getWidth());
+				int y = (int) (panelBounds.getY());
+				Rectangle bounds = new Rectangle(x,y, (int)panelBounds.getWidth(), (int)panelBounds.getHeight());
+
+				Room room = new Room(id, bounds);
+
+				RoomPanel panel = new RoomPanel(room);
+				panel.setBounds(bounds);
+				try {
+					Editor.getEditor().addRoom(panel);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+
+        });
+        add(addRoomLeft);
+        
+        addSeparator();
+        
+        int x = Editor.getEditor().getFrame().getMousePosition().x;
+        int y = Editor.getEditor().getFrame().getMousePosition().y;
+        
+        if(RoomUtils.findRoomOnScreen(x,y) != null)
+        {
+        	
+        }
     }
 }

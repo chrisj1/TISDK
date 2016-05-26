@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.ScrollPaneLayout;
 
 import sdk.core.Room;
 import sdk.util.Drawer;
@@ -47,7 +48,9 @@ public class Editor
 		this.highestY = 0;
 		this.rooms = new ArrayList<RoomPanel>();
 
+		
 		setUpFrame();
+		frame.getContentPane().setLayout(null);
 		try {
 			drawFirstRoom();
 		} catch (IOException e) {
@@ -82,18 +85,13 @@ public class Editor
 		//inner class
 		BufferedImage bi =  Drawer.toBufferedImage(Drawer.genBufferedImageFromRoom(room, 0)
 				.getScaledInstance(ROOM_WIDTH, ROOM_HEIGHT, BufferedImage.SCALE_FAST));
-		frame.getContentPane().setLayout(null);
-		RoomPanel pane = new RoomPanel(room) {
-			@Override
-			protected void paintComponent(Graphics g)
-			{
-				super.paintComponent(g);
-				g.drawImage(bi, 0, 0, null);
-			}
-		};
-		int x = WIDTH/2- bi.getWidth()/2;
-		int y = HEIGHT/2 - bi.getHeight()/2;
-		pane.setBounds(x,y,bi.getWidth(), bi.getHeight());
+		RoomPanel pane = new RoomPanel(room);
+		pane.refreshImage();
+		int x = WIDTH/2- ROOM_WIDTH/2;
+		int y = HEIGHT/2 - ROOM_HEIGHT/2;
+		
+		pane.setBounds(x,y,ROOM_WIDTH, ROOM_HEIGHT);
+		System.out.println(pane.getBounds());
 		pane.addMouseListener(new ContextListener());
 		frame.getContentPane().add(pane);
 		rooms.add(pane);
@@ -109,6 +107,11 @@ public class Editor
 	{
 		for(RoomPanel panel : this.rooms)
 		{
+			System.out.println(panel);
+		}
+		
+		for(RoomPanel panel : this.rooms)
+		{
 			if(panel.getBounds().intersects(room.getBounds()))
 			{
 				System.out.println("Panel already exists or intersects");
@@ -117,21 +120,14 @@ public class Editor
 
 		}
 
-		Image bi = Drawer.genBufferedImageFromRoom(room.getRoom(), rooms.size()-1).getScaledInstance(ROOM_WIDTH, ROOM_HEIGHT, BufferedImage.SCALE_FAST);
-
-		RoomPanel pane = new RoomPanel(room.getRoom())
-		{
-			@Override
-			protected void paintComponent(Graphics g)
-			{
-				super.paintComponent(g);
-				g.drawImage(bi, 0, 0, null);
-			}
-		};
+		System.out.println(room);
+		RoomPanel pane = new RoomPanel(room.getRoom());
+		pane.refreshImage();
 		pane.setBounds(room.getBounds());
 		pane.addMouseListener(new ContextListener());
 		frame.getContentPane().add(pane);
 		rooms.add(pane);
+		frame.repaint();
 	}
 
 
@@ -149,5 +145,10 @@ public class Editor
 
 	public static void setEditor(Editor editor) {
 		Editor.editor = editor;
+	}
+	
+	public JFrame getFrame()
+	{
+		return frame;
 	}
 }
