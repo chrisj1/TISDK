@@ -3,7 +3,7 @@ package sdk.core;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-public class Room {
+public class Room implements Comparable{
 
 	private int top;
 	private int bottom;
@@ -149,15 +149,18 @@ public class Room {
 		this.y = y;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		Room room2 = (Room) obj;
 		return (top == room2.getTop() && bottom == room2.getBottom() &&
 				left == room2.getLeft() && right == room2.getRight() &&
 				id == room2.getId());
+	}
+
+	@Override
+	public int compareTo(Object arg0) {
+		Room room = (Room) arg0;
+		return this.id - room.id;
 	}	
 
 }

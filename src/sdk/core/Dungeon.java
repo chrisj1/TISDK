@@ -4,9 +4,9 @@ public class Dungeon
 {
 
 	private String name;
-	private Room[][] rooms;
+	private Room[] rooms;
 	
-	public Dungeon(Room[][] rooms) 
+	public Dungeon(Room[] rooms) 
 	{
 		this.rooms = rooms;
 	}
@@ -19,11 +19,11 @@ public class Dungeon
 		this.name = name;
 	}
 	
-	public Room[][] getRooms() 
+	public Room[] getRooms() 
 	{
 		return rooms;
 	}
-	public void setRooms(Room[][] rooms) 
+	public void setRooms(Room[] rooms) 
 	{
 		this.rooms = rooms;
 	}

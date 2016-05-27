@@ -17,6 +17,7 @@ import javax.swing.ScrollPaneLayout;
 
 import sdk.core.Room;
 import sdk.util.Drawer;
+import sdk.util.Saver;
 
 public class Editor
 {
@@ -29,11 +30,6 @@ public class Editor
 	public static final int ROOM_WIDTH = WIDTH/16;
 	public static final int ROOM_HEIGHT = HEIGHT/16;
 
-	private int lowestX;
-	private int highestX;
-	private int lowestY;
-	private int highestY;
-
 	private JFrame frame;
 
 	private ArrayList<RoomPanel> rooms;
@@ -43,10 +39,6 @@ public class Editor
 	 */
 	public Editor()
 	{
-		this.lowestX = 0;
-		this.lowestY = 0;
-		this.highestX = 0;
-		this.highestY = 0;
 		this.rooms = new ArrayList<RoomPanel>();
 
 		
@@ -118,6 +110,12 @@ public class Editor
 		frame.getContentPane().add(pane);
 		rooms.add(pane);
 		frame.repaint();
+		ArrayList<Room> rooms = new ArrayList<Room>();
+		for(RoomPanel panel : this.rooms)
+		{
+			rooms.add(panel.getRoom());
+		}
+		Saver.saveRooms(rooms);
 	}
 
 

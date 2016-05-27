@@ -21,20 +21,9 @@ public class Drawer {
 	private static BufferedImage wall;
 	private static BufferedImage floor;
 
-	private static HashMap<Short, BufferedImage> existingRooms;
-
 	public static BufferedImage genBufferedImageFromRoom(Room room, int num) throws IOException
 	{
 		long start = System.nanoTime();
-		if(existingRooms == null)
-		{
-			existingRooms = new HashMap<Short, BufferedImage>();
-		}
-		else if(false && existingRooms.containsKey(roomToInteger(room)))
-		{
-			System.out.println((start - System.nanoTime()) / 10E9);
-			return existingRooms.get(roomToInteger(room));
-		}
 
 		if(floor == null || wall == null)
 		{
@@ -46,8 +35,6 @@ public class Drawer {
 		bi = outlineRoom(wall, bi);
 		bi = addEntrances(bi, room, floor);
 
-		short id = roomToInteger(room);
-		existingRooms.put(id, bi);
 		System.out.println((System.nanoTime() - start) / 10E9);
 		return bi;
 	}

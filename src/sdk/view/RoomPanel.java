@@ -2,8 +2,6 @@ package sdk.view;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.LayoutManager;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -12,7 +10,7 @@ import javax.swing.JPanel;
 import sdk.core.Room;
 import sdk.util.Drawer;
 
-public class RoomPanel extends JPanel {
+public class RoomPanel extends JPanel implements Comparable{
 
 	private Room room;
 	
@@ -44,17 +42,26 @@ public class RoomPanel extends JPanel {
 		this.image = image;
 	}
 
-	public Room getRoom() {
+	public Room getRoom() 
+	{
 		return room;
 	}
 
-	public void setRoom(Room room) {
+	public void setRoom(Room room) 
+	{
 		this.room = room;
 	}
 
 	@Override
-	public String toString() {
+	public String toString() 
+	{
 		return "RoomPanel [room=" + room + ", image=" + image + ", bounds=" + getBounds() + "]";
+	}
+
+	@Override
+	public int compareTo(Object o) 
+	{
+		return room.compareTo(o);
 	}
 	
 	

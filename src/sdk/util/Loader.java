@@ -60,7 +60,6 @@ public class Loader
 
 		return stringToDungeon(full);
 	}
-
 	private static Dungeon stringToDungeon(ArrayList<String> full)
 	{
 		int width = 0;
@@ -132,7 +131,6 @@ public class Loader
 
 		return null;
 	}
-
 	public static void saveDungeon(final Dungeon dungeon) {
 
 		FileChooser chooser = new FileChooser(new Filter(), JFileChooser.DIRECTORIES_ONLY, new ActionListener()
@@ -308,5 +306,5 @@ public class Loader
 		}
 		return bi;
 	}
-	*/
+	 */
 }
