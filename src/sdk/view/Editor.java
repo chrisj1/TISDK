@@ -2,21 +2,14 @@ package sdk.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.Rectangle;
-import java.awt.ScrollPane;
 import java.awt.Toolkit;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.ScrollPaneLayout;
 
 import sdk.core.Room;
-import sdk.util.Drawer;
 import sdk.util.Saver;
 
 public class Editor
@@ -42,8 +35,9 @@ public class Editor
 		this.rooms = new ArrayList<RoomPanel>();
 
 		
-		setUpFrame();
+		setUpFrame();		
 		frame.getContentPane().setLayout(null);
+
 		try {
 			drawFirstRoom();
 		} catch (IOException e) {
@@ -68,7 +62,7 @@ public class Editor
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		frame.setBackground(Color.BLACK);
-		frame.getContentPane().setBackground(Color.BLACK);
+		frame.getContentPane().setBackground(Color.GRAY);
 	}
 
 	private void drawFirstRoom() throws IOException
@@ -110,12 +104,6 @@ public class Editor
 		frame.getContentPane().add(pane);
 		rooms.add(pane);
 		frame.repaint();
-		ArrayList<Room> rooms = new ArrayList<Room>();
-		for(RoomPanel panel : this.rooms)
-		{
-			rooms.add(panel.getRoom());
-		}
-		Saver.saveRooms(rooms);
 	}
 
 
@@ -147,6 +135,13 @@ public class Editor
 			room.refreshImage();
 		}
 		frame.repaint();
+		
+		ArrayList<Room> rooms = new ArrayList<Room>();
+		for(RoomPanel panel : this.rooms)
+		{
+			rooms.add(panel.getRoom());
+		}
+		Saver.saveRooms(rooms);
 		
 	}
 }
