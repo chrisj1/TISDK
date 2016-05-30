@@ -87,7 +87,7 @@ public class Drawer {
 			{
 				for (int row = bi.getHeight()-32; row < bi.getHeight(); row+=32)
 				{
-					for (int col = WIDTH/2 - WIDTH/6; col < WIDTH/2 + WIDTH/6; col+=32)
+					for (int col = WIDTH/2 - WIDTH/8; col < WIDTH/2 + WIDTH/8; col+=32)
 					{
 						for(int iCol = 0; iCol < 32; iCol++)
 						{
