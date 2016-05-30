@@ -5,12 +5,18 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.nio.Buffer;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
+import com.sun.prism.Image;
 
 import sdk.core.Room;
+import sdk.util.Drawer;
 import sdk.util.Saver;
 
 public class DungeonEditor
@@ -150,12 +156,16 @@ public class DungeonEditor
 	public void enterRoom(RoomPanel room)
 	{
 		dungeonCon = frame.getContentPane();
-		
 		Container container = new Container();
 		Rectangle bounds = new Rectangle(0,0, DungeonEditor.WIDTH, DungeonEditor.HEIGHT);
 		room.setBounds(bounds);
+		try {
+			room.setImage(Drawer.genBufferedImageFromRoom(room.getRoom(), 0).getScaledInstance(WIDTH,HEIGHT,BufferedImage.SCALE_FAST));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		container.add(room);
-		
 		frame.setContentPane(container);
+		SwingUtilities.updateComponentTreeUI(frame);
 	}
 }

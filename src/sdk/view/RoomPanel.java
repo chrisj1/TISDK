@@ -63,6 +63,13 @@ public class RoomPanel extends JPanel implements Comparable{
 	{
 		return room.compareTo(o);
 	}
+
+	/**
+	 * @return the image
+	 */
+	public Image getImage() {
+		return image;
+	}
 	
 	
 	
