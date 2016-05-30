@@ -3,10 +3,12 @@ package sdk.view;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.JPopupMenu;
+
 import sdk.core.Room;
 
-public class ContextListener extends MouseAdapter{
-
+public class DungeonContextListener extends MouseAdapter{
+	
 	public void mousePressed(MouseEvent e){
 		System.out.println(e.getXOnScreen());
 		if(e.isPopupTrigger())
@@ -24,7 +26,7 @@ public class ContextListener extends MouseAdapter{
 
 	private void doPop(MouseEvent e){
 		RoomPanel room = ((RoomPanel)e.getSource());
-		ContextMenu menu = new ContextMenu(room);
+		DungeonContextMenu menu = new DungeonContextMenu(room);
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
 }

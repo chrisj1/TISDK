@@ -1,6 +1,7 @@
 package sdk.view;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
@@ -12,10 +13,10 @@ import javax.swing.JFrame;
 import sdk.core.Room;
 import sdk.util.Saver;
 
-public class Editor
+public class DungeonEditor
 {
 
-	private static Editor editor;
+	private static DungeonEditor editor;
 
 	public static final int WIDTH = 1920;
 	public static final int HEIGHT = 1080;
@@ -26,11 +27,13 @@ public class Editor
 	private JFrame frame;
 
 	private ArrayList<RoomPanel> rooms;
+	
+	private Container dungeonCon;
 
 	/**
 	 * Create the application.
 	 */
-	public Editor()
+	public DungeonEditor()
 	{
 		this.rooms = new ArrayList<RoomPanel>();
 
@@ -74,7 +77,7 @@ public class Editor
 		int y = HEIGHT/2 - ROOM_HEIGHT/2;
 		
 		pane.setBounds(x,y,ROOM_WIDTH, ROOM_HEIGHT);
-		pane.addMouseListener(new ContextListener());
+		pane.addMouseListener(new DungeonContextListener());
 		frame.getContentPane().add(pane);
 		rooms.add(pane);
 	}
@@ -100,7 +103,7 @@ public class Editor
 		RoomPanel pane = new RoomPanel(room.getRoom());
 		pane.refreshImage();
 		pane.setBounds(room.getBounds());
-		pane.addMouseListener(new ContextListener());
+		pane.addMouseListener(new DungeonContextListener());
 		frame.getContentPane().add(pane);
 		rooms.add(pane);
 		frame.repaint();
@@ -115,12 +118,12 @@ public class Editor
 		this.rooms = rooms;
 	}
 
-	public static Editor getEditor() {
+	public static DungeonEditor getEditor() {
 		return editor;
 	}
 
-	public static void setEditor(Editor editor) {
-		Editor.editor = editor;
+	public static void setEditor(DungeonEditor editor) {
+		DungeonEditor.editor = editor;
 	}
 	
 	public JFrame getFrame()
@@ -142,6 +145,17 @@ public class Editor
 			rooms.add(panel.getRoom());
 		}
 		Saver.saveRooms(rooms);
+	}
+	
+	public void enterRoom(RoomPanel room)
+	{
+		dungeonCon = frame.getContentPane();
 		
+		Container container = new Container();
+		Rectangle bounds = new Rectangle(0,0, DungeonEditor.WIDTH, DungeonEditor.HEIGHT);
+		room.setBounds(bounds);
+		container.add(room);
+		
+		frame.setContentPane(container);
 	}
 }

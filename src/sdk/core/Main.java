@@ -2,7 +2,7 @@ package sdk.core;
 
 import java.awt.EventQueue;
 
-import sdk.view.Editor;
+import sdk.view.DungeonEditor;
 
 public class Main {
 
@@ -13,12 +13,12 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Editor window = new Editor();
+					DungeonEditor window = new DungeonEditor();
+					window.update();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
-
 }
