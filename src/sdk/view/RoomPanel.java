@@ -3,8 +3,10 @@ package sdk.view;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import sdk.core.Room;
@@ -31,8 +33,11 @@ public class RoomPanel extends JPanel implements Comparable{
 	public void refreshImage()
 	{
 		try {
-			this.image = Drawer.genBufferedImageFromRoom(room, room.getId()).getScaledInstance(DungeonEditor.ROOM_WIDTH, DungeonEditor.ROOM_HEIGHT, BufferedImage.SCALE_FAST);
-		} catch (IOException e) {
+			this.image = Drawer.genBufferedImageFromRoom(room, room.getWall(), room.getFloor())
+					.getScaledInstance(DungeonEditor.ROOM_WIDTH,DungeonEditor.ROOM_HEIGHT,BufferedImage.SCALE_FAST);
+			ImageIO.write(Drawer.toBufferedImage(image), "png", new File("test4.png"));
+		} catch (IOException e) 
+		{
 			e.printStackTrace();
 		}
 	}
@@ -69,8 +74,5 @@ public class RoomPanel extends JPanel implements Comparable{
 	 */
 	public Image getImage() {
 		return image;
-	}
-	
-	
-	
+	}	
 }

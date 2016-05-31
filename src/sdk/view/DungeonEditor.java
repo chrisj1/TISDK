@@ -13,8 +13,6 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import com.sun.prism.Image;
-
 import sdk.core.Room;
 import sdk.util.Drawer;
 import sdk.util.Saver;
@@ -22,10 +20,15 @@ import sdk.util.Saver;
 public class DungeonEditor
 {
 
+	public enum State {
+		MAP(),
+		ROOM
+	}
+	
 	private static DungeonEditor editor;
 
-	public static final int WIDTH = 1920;
-	public static final int HEIGHT = 1080;
+	public static final int WIDTH = 1280;
+	public static final int HEIGHT = 720;
 
 	public static final int ROOM_WIDTH = WIDTH/16;
 	public static final int ROOM_HEIGHT = HEIGHT/16;
@@ -35,6 +38,8 @@ public class DungeonEditor
 	private ArrayList<RoomPanel> rooms;
 	
 	private Container dungeonCon;
+	
+	private static State state;
 
 	/**
 	 * Create the application.
@@ -42,7 +47,7 @@ public class DungeonEditor
 	public DungeonEditor()
 	{
 		this.rooms = new ArrayList<RoomPanel>();
-
+		state = State.MAP;
 		
 		setUpFrame();		
 		frame.getContentPane().setLayout(null);
@@ -155,17 +160,27 @@ public class DungeonEditor
 	
 	public void enterRoom(RoomPanel room)
 	{
+		state = State.ROOM;
 		dungeonCon = frame.getContentPane();
 		Container container = new Container();
 		Rectangle bounds = new Rectangle(0,0, DungeonEditor.WIDTH, DungeonEditor.HEIGHT);
 		room.setBounds(bounds);
 		try {
-			room.setImage(Drawer.genBufferedImageFromRoom(room.getRoom(), 0).getScaledInstance(WIDTH,HEIGHT,BufferedImage.SCALE_FAST));
+			room.setImage(Drawer.genBufferedImageFromRoom(room.getRoom(), room.getRoom().getWall(), room.getRoom().getFloor())
+					.getScaledInstance(WIDTH,HEIGHT,BufferedImage.SCALE_FAST));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		container.add(room);
 		frame.setContentPane(container);
 		SwingUtilities.updateComponentTreeUI(frame);
+	}
+
+	public static State getState() {
+		return state;
+	}
+
+	public static void setState(State state) {
+		DungeonEditor.state = state;
 	}
 }

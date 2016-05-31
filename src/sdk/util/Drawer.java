@@ -6,36 +6,56 @@ import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
 import sdk.core.Room;
+import sdk.core.Room.Floors;
+import sdk.core.Room.Walls;
 
 public class Drawer {
 
 	public static final int WIDTH = 32*16;
 	public static final int HEIGHT = 32*9;
+	
+	private static HashMap<String, BufferedImage> floors;
+	private static HashMap<String, BufferedImage> walls;
 
-	private static BufferedImage wall;
-	private static BufferedImage floor;
-
-	public static BufferedImage genBufferedImageFromRoom(Room room, int num) throws IOException
+	public static BufferedImage genBufferedImageFromRoom(Room room, Walls selectedWall, Floors selectedFloor) throws IOException
 	{
-		long start = System.nanoTime();
-
-		if(floor == null || wall == null)
+		if(walls == null || floors == null)
 		{
-			floor = ImageIO.read(Drawer.class.getResourceAsStream("/assets/floor.png"));
-			wall = ImageIO.read(Drawer.class.getResourceAsStream("/assets/wall.png"));
+			walls = new HashMap<String, BufferedImage>();
+			floors = new HashMap<String, BufferedImage>();
+
+			for(Walls wall : Walls.values())
+			{
+				walls.put(wall.name(), ImageIO.read(Drawer.class.getResourceAsStream("/assets/" + wall.file)));
+			}
+			
+			for(Floors floor : Floors.values())
+			{
+				floors.put(floor.name(), ImageIO.read(
+						Drawer.class.getResourceAsStream("/assets/" + floor.file)));
+			}
 		}
 
-		BufferedImage bi = fillRoom(floor);
-		bi = outlineRoom(wall, bi);
-		bi = addEntrances(bi, room, floor);
+		
+		System.out.println("WALLS:");
+		System.out.println(walls);
+		System.out.println("FLOORS:");
+		System.out.println(floors);
+		BufferedImage bi = fillRoom(floors.get(selectedFloor.name()));
+		System.out.println(bi);
+		ImageIO.write(bi, "png", new File("test1.png"));
+		bi = outlineRoom(walls.get(selectedWall.name()), bi);
+		ImageIO.write(bi, "png", new File("test2.png"));
+		bi = addEntrances(bi, room, floors.get(selectedFloor.name()));
+		ImageIO.write(bi, "png", new File("test3.png")); 
 
-		System.out.println((System.nanoTime() - start) / 10E9);
 		return bi;
 	}
 

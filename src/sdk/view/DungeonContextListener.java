@@ -7,9 +7,11 @@ import javax.swing.JPopupMenu;
 
 import sdk.core.Room;
 
-public class DungeonContextListener extends MouseAdapter{
+public class DungeonContextListener extends MouseAdapter
+{
 	
-	public void mousePressed(MouseEvent e){
+	public void mousePressed(MouseEvent e)
+	{
 		System.out.println(e.getXOnScreen());
 		if(e.isPopupTrigger())
 		{
@@ -17,14 +19,17 @@ public class DungeonContextListener extends MouseAdapter{
 		}
 	}
 
-	public void mouseReleased(MouseEvent e){
+	public void mouseReleased(MouseEvent e)
+	{
 		if(e.isPopupTrigger())
 		{
 			doPop(e);
 		}
 	}
 
-	private void doPop(MouseEvent e){
+	private void doPop(MouseEvent e)
+	{
+		System.out.println("Menu");
 		RoomPanel room = ((RoomPanel)e.getSource());
 		DungeonContextMenu menu = new DungeonContextMenu(room);
 		menu.show(e.getComponent(), e.getX(), e.getY());

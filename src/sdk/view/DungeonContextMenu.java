@@ -10,20 +10,35 @@ import javax.swing.JPopupMenu;
 
 import sdk.core.Room;
 import sdk.util.RoomUtils;
+import sdk.view.DungeonEditor.State;
 
 public class DungeonContextMenu extends JPopupMenu 
-{
-	
-	JMenuItem addRoomAbove;
-	JMenuItem addRoomBelow;
-	JMenuItem addRoomRight;
-	JMenuItem addRoomLeft;
-	
-	JMenuItem enterRoom;
-
-    public DungeonContextMenu(final RoomPanel room)
+{	
+	public DungeonContextMenu(RoomPanel room)
     {
-    	enterRoom = new JMenuItem("Edit Room");
+    	if(DungeonEditor.getState() == State.MAP)
+    	{
+    		setUpMapMenu(room);
+    	}
+    	else
+    	{
+    		setUpRoomMenu(room);
+    	}
+    }
+
+	private void setUpRoomMenu(RoomPanel room) {
+		
+	}
+
+	private void setUpMapMenu(final RoomPanel room) {
+		JMenuItem addRoomAbove;
+		JMenuItem addRoomBelow;
+		JMenuItem addRoomRight;
+		JMenuItem addRoomLeft;
+		
+		JMenuItem enterRoom;
+		
+		enterRoom = new JMenuItem("Edit Room");
     	enterRoom.addActionListener(new ActionListener()
     	{
     		@Override
@@ -225,5 +240,5 @@ public class DungeonContextMenu extends JPopupMenu
         	});
         	add(connectLeft);
         }
-    }
+	}
 }
