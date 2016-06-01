@@ -96,4 +96,12 @@ public class RoomPanel extends JPanel implements Comparable{
 	public Image getImage() {
 		return image;
 	}
+
+	public RoomPanel clone(RoomPanel panel)
+	{
+		RoomPanel newPanel = new RoomPanel(room);
+		newPanel.setBounds(panel.getBounds());
+		newPanel.setImage(panel.getImage());
+		return newPanel;
+	}
 }

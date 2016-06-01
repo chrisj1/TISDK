@@ -10,6 +10,8 @@ import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -47,17 +49,16 @@ public class DungeonEditor
 
 	public static final int ROOM_WIDTH = WIDTH/16;
 	public static final int ROOM_HEIGHT = HEIGHT/16;
-	
+
 	public static final int MENU_BAR_HEIGHT = 50;
 
 	private JFrame frame;
 
+	private RoomPanel zoomedPanel;
 	private ArrayList<RoomPanel> rooms;
 
-	private Container dungeonCon;
-
 	private static State state;
-	
+
 	private RoomPanel enteredRoom;
 
 	/**
@@ -80,8 +81,40 @@ public class DungeonEditor
 
 		setUpMenu();
 		finalizeFrame();
+		handleKeyBoardListener();
 
 		editor = this;
+	}
+
+	/**
+	 * Handles exiting out of room with esc
+	 */
+	private void handleKeyBoardListener() {
+		frame.addKeyListener(new KeyListener()
+		{
+
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if(arg0.getKeyCode() == KeyEvent.VK_ESCAPE)
+				{
+					exitRoom();
+				}
+
+			}
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+
+			}
+
+		});
 	}
 
 	/**
@@ -107,7 +140,7 @@ public class DungeonEditor
 			}
 		});
 		menu.add(save);
-		
+
 		frame.setMenuBar(menuBar);
 	}
 
@@ -199,10 +232,12 @@ public class DungeonEditor
 		{
 			rooms.add(panel.getRoom());
 		}
-		
-		if(state == State.ROOM)
+
+		if(enteredRoom != null)
 		{
-			enterRoom(enteredRoom);
+			enteredRoom.refreshImage();
+			enteredRoom.setImage(enteredRoom.getImage().getScaledInstance(WIDTH, HEIGHT, BufferedImage.SCALE_FAST));
+			enteredRoom.repaint();
 		}
 	}
 	/**
@@ -213,28 +248,43 @@ public class DungeonEditor
 	{
 		enteredRoom = room;
 		state = State.ROOM;
-		dungeonCon = frame.getContentPane();
-		Container container = new Container();
 		Rectangle bounds = new Rectangle(0,0, DungeonEditor.WIDTH, DungeonEditor.HEIGHT);
-		room.setBounds(bounds);
+		RoomPanel clone = room.clone(room);
+		clone.setBounds(bounds);
 		try {
-			room.setImage(Drawer.genBufferedImageFromRoom(room.getRoom())
+			clone.setImage(Drawer.genBufferedImageFromRoom(room.getRoom())
 					.getScaledInstance(WIDTH,HEIGHT,BufferedImage.SCALE_FAST));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		try {
-			ImageIO.write(Drawer.toBufferedImage(Drawer.genBufferedImageFromRoom(room.getRoom())
-						.getScaledInstance(WIDTH,HEIGHT,BufferedImage.SCALE_FAST)), "png", new File("Test123.png"));
-		} catch (IOException e) {
-			e.printStackTrace();
+
+		clone.repaint();
+		clone.addMouseListener(new DungeonContextListener());
+		for(RoomPanel panel: rooms)
+		{
+			frame.remove(panel);
 		}
-		
-		container.add(room);
-		frame.setContentPane(container);
-		room.repaint();
+		frame.add(clone);
 		SwingUtilities.updateComponentTreeUI(frame);
-		System.out.println(room);
+		enteredRoom = clone;
+	}
+
+	public void exitRoom()
+	{
+		if(state == State.ROOM)
+		{
+			this.state = State.MAP;
+			for(RoomPanel panel: rooms)
+			{
+				System.out.println(panel.getBounds());
+				panel.refreshImage();
+				frame.getContentPane().remove(enteredRoom);
+				frame.getContentPane().add(panel);
+				panel.repaint();
+			}
+			update();
+			this.enteredRoom = null;
+		}
 	}
 
 	/**
