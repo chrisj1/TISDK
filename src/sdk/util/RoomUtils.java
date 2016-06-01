@@ -41,7 +41,7 @@ public class RoomUtils
 		{
 			for(int i = 7; i < 9; i++)
 			{
-				bi.setRGB(i, 0, TILE);
+				bi.setRGB(i, 0, tile);
 			}
 		}
 
@@ -49,21 +49,21 @@ public class RoomUtils
 		{
 			for(int i = 7; i < 9; i++)
 			{
-				bi.setRGB(i, bi.getHeight()-1, TILE);
+				bi.setRGB(i, bi.getHeight()-1, tile);
 			}
 		}
 
 		if(room.getLeft() != -1)
 		{
 			for(int i = 3; i < 6; i++) {
-				bi.setRGB(0, i, TILE);
+				bi.setRGB(0, i, tile);
 			}
 		}
 
 		if(room.getRight() != -1)
 		{
 			for(int i = 3; i < 6; i++) {
-				bi.setRGB(bi.getWidth()-1, i, TILE);
+				bi.setRGB(bi.getWidth()-1, i, tile);
 			}
 		}
 		return bi;

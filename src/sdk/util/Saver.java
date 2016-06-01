@@ -1,11 +1,14 @@
 package sdk.util;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import javax.imageio.ImageIO;
+
 import sdk.core.Entity;
 import sdk.core.Room;
-import sdk.view.RoomPanel;
 
 /**
  * Deals with saving a dungeon
@@ -19,9 +22,19 @@ public class Saver {
 	 */
 	public static void saveRooms(ArrayList<Room> rooms)
 	{
+		String time = String.valueOf(System.currentTimeMillis());
+		File file = new File(time);
+		file.mkdir();
 		Collections.sort(rooms);
-		System.out.println(genOutput(rooms));
-
+		String dat = genOutput(rooms);
+		for(Room room : rooms)
+		{
+			try {
+				ImageIO.write(RoomUtils.genKeyBufferedImageFromRoom(room), "png", new File(time + "/" + room.getId()));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**
