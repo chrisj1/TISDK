@@ -32,6 +32,7 @@ public class WallChangeActionListener implements ActionListener
 			e.printStackTrace();
 		}
 		panel.repaint();
+		//DungeonEditor.getEditor().updateExitButton();
 	}
 
 }

@@ -65,6 +65,8 @@ public class DungeonEditor
 
 	private RoomPanel enteredRoom;
 
+	private final JButton btExit = new JButton("Exit");
+
 	/**
 	 * Create the application.
 	 */
@@ -84,6 +86,7 @@ public class DungeonEditor
 		}
 
 		setUpSaveButton();
+		addExitButton();
 		finalizeFrame();
 
 		editor = this;
@@ -115,7 +118,6 @@ public class DungeonEditor
 			}
 		});
 		frame.add(save);
-
 		frame.repaint();
 		SwingUtilities.updateComponentTreeUI(frame);
 	}
@@ -135,8 +137,7 @@ public class DungeonEditor
 		frame.setBounds(topRightx, topRighty, WIDTH, HEIGHT + MENU_BAR_HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		frame.setBackground(Color.BLACK);
-		frame.getContentPane().setBackground(Color.GRAY);
+		frame.getContentPane().setBackground(Color.WHITE);
 	}
 
 	/**
@@ -216,35 +217,38 @@ public class DungeonEditor
 			enteredRoom.repaint();
 		}
 	}
+
+	public void addExitButton()
+	{
+		JButton save = new JButton("Exit");
+		final int X = 80;
+		final int Y = 10;
+		final int BUTTON_WIDTH = 70;
+		final int BUTTON_HEIGHT = 50;
+		save.setBounds(new Rectangle(X,Y,BUTTON_WIDTH,BUTTON_HEIGHT));
+
+		save.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0)
+			{
+				exitRoom();
+			}
+		});
+		frame.add(save);
+		frame.repaint();
+		SwingUtilities.updateComponentTreeUI(frame);
+	}
+
 	/**
 	 * Enters a room to edit
 	 * @param room the room panel to edit
 	 */
 	public void enterRoom(RoomPanel room)
-	{
-		final JButton btExit = new JButton("Exit");
-		
-		final int X = 90;
-		final int Y = 10;
-		final int BUTTON_WIDTH = 70;
-		final int BUTTON_HEIGHT = 50;
-		btExit.setBounds(new Rectangle(X,Y,BUTTON_WIDTH,BUTTON_HEIGHT));
-		
-		btExit.addActionListener(new ActionListener()
-		{
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-					exitRoom();
-					frame.remove(btExit);
-			}
-			
-		});
-		
-		frame.add(btExit);
-		
+	{	
 		enteredRoom = room;
 		state = State.ROOM;
+		btExit.setEnabled(true);
 		Rectangle bounds = new Rectangle(0,0, DungeonEditor.WIDTH, DungeonEditor.HEIGHT);
 		RoomPanel clone = room.clone(room);
 		clone.setBounds(bounds);
@@ -280,6 +284,7 @@ public class DungeonEditor
 				panel.repaint();
 			}
 			update();
+			btExit.setEnabled(false);
 			this.enteredRoom = null;
 		}
 	}

@@ -55,11 +55,8 @@ public class Drawer {
 
 		BufferedImage bi = fillRoom(room);
 		System.out.println(bi);
-		ImageIO.write(bi, "png", new File("1.png"));
 		bi = outlineRoom(bi, room);
-		ImageIO.write(bi, "png", new File("2.png"));
 		bi = addEntrances(bi, room);
-		ImageIO.write(bi, "png", new File("3.png"));
 
 		return bi;
 	}

@@ -15,6 +15,9 @@ public class Entity
 	 */
 	public enum EntityType
 	{
+		BAT("Bat"),
+		INQUISITOR("Inquisitor"),
+		SKELETON("Skeleton"),
 		KNIGHT("Knight");
 
 		private String name;

@@ -27,13 +27,6 @@ public class EntityChangeActionListener implements ActionListener
 	{
 		RoomPanel panel =  DungeonEditor.getEditor().getEnteredRoom();
 		panel.getRoom().addEntity(new Entity(ent, 0, 0, 100, 100));
-		try {
-			panel.setImage(Drawer.genBufferedImageFromRoom(panel.getRoom())
-					.getScaledInstance(DungeonEditor.WIDTH, DungeonEditor.HEIGHT, BufferedImage.SCALE_FAST));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		panel.repaint();
 	}
 
 }

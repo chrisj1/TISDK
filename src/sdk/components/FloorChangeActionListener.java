@@ -32,6 +32,7 @@ public class FloorChangeActionListener implements ActionListener
 			e.printStackTrace();
 		}
 		panel.repaint();
+		//DungeonEditor.getEditor().updateExitButton();
 	}
 
 }
