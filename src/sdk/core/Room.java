@@ -5,47 +5,51 @@ import java.util.ArrayList;
 
 public class Room implements Comparable{
 
-	public enum Floors 
+	/**
+	 * Represents the list of floor assets
+	 * @author Chris Jerrett
+	 */
+	public enum Floors
 	{
 		GRASS_FLOOR("GrassFloor.png");
-		
+
 		public final String file;
 		Floors(String file)
 		{
 			this.file = file;
 		}
 	};
-	
-	public enum Walls 
+
+	public enum Walls
 	{
 		BLACK_WALL("BlackWall.png");
 		//BRICK_WALL("CastleWall.png"),
 		//MOSSY_WALL("MossyWall.png");
-		
+
 		public final String file;
 		Walls(String file)
 		{
 			this.file = file;
 		}
 	};
-	
+
 	private Walls wall;
 	private Floors floor;
-	
+
 	private int top;
 	private int bottom;
 	private int left;
 	private int right;
 	private int id;
 	ArrayList<Entity> entities;
-	
+
 	private int x;
 	private int y;
 
-	public Room(int id, Rectangle bounds) 
-	{		
+	public Room(int id, Rectangle bounds)
+	{
 		this.floor = Floors.GRASS_FLOOR;
-		this.wall = Walls.BLACK_WALL;	
+		this.wall = Walls.BLACK_WALL;
 		this.id = id;
 		this.bottom = -1;
 		this.left = -1;
@@ -56,17 +60,17 @@ public class Room implements Comparable{
 
 	public boolean hasConnections()
 	{
-		return getTop() != -1 || 
+		return getTop() != -1 ||
 				getRight() != -1 ||
-				getLeft() != -1 || 
+				getLeft() != -1 ||
 				getBottom() != -1;
 	}
-	
-	
+
+
 	/**
 	 * @return the top
 	 */
-	public int getTop() 
+	public int getTop()
 	{
 		return top;
 	}
@@ -81,7 +85,7 @@ public class Room implements Comparable{
 	/**
 	 * @return the bottom
 	 */
-	public int getBottom() 
+	public int getBottom()
 	{
 		return bottom;
 	}
@@ -89,7 +93,7 @@ public class Room implements Comparable{
 	/**
 	 * @return the left
 	 */
-	public int getLeft() 
+	public int getLeft()
 	{
 		return left;
 	}
@@ -97,7 +101,7 @@ public class Room implements Comparable{
 	/**
 	 * @return the right
 	 */
-	public int getRight() 
+	public int getRight()
 	{
 		return right;
 	}
@@ -105,7 +109,7 @@ public class Room implements Comparable{
 	/**
 	 * @return the id
 	 */
-	public int getId() 
+	public int getId()
 	{
 		return id;
 	}
@@ -121,7 +125,7 @@ public class Room implements Comparable{
 	/**
 	 * @param bottom the bottom to set
 	 */
-	public void setBottom(int bottom) 
+	public void setBottom(int bottom)
 	{
 		this.bottom = bottom;
 	}
@@ -129,7 +133,7 @@ public class Room implements Comparable{
 	/**
 	 * @param left the left to set
 	 */
-	public void setLeft(int left) 
+	public void setLeft(int left)
 	{
 		this.left = left;
 	}
@@ -137,7 +141,7 @@ public class Room implements Comparable{
 	/**
 	 * @param right the right to set
 	 */
-	public void setRight(int right) 
+	public void setRight(int right)
 	{
 		this.right = right;
 	}
@@ -145,12 +149,16 @@ public class Room implements Comparable{
 	/**
 	 * @param id the id to set
 	 */
-	public void setId(int id) 
+	public void setId(int id)
 	{
 		this.id = id;
 	}
 
-	public void addEntity(Entity ent) 
+	/**
+	 * adds a entity to the room
+	 * @param ent
+	 */
+	public void addEntity(Entity ent)
 	{
 		this.entities.add(ent);
 	}
@@ -162,22 +170,42 @@ public class Room implements Comparable{
 		return entities;
 	}
 
+	/**
+	 * gets the x
+	 * @return the x
+	 */
 	public int getX() {
 		return x;
 	}
 
+	/**
+	 * Sets the x
+	 * @param x the x
+	 */
 	public void setX(int x) {
 		this.x = x;
 	}
 
+	/**
+	 * gets the y
+	 * @return the y
+	 */
 	public int getY() {
 		return y;
 	}
 
+	/**
+	 * Sets the Y
+	 * @param y
+	 */
 	public void setY(int y) {
 		this.y = y;
 	}
 
+	/**
+	 * Checks to see if two rooms are equal
+	 * @param obj the object to compare
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		Room room2 = (Room) obj;
@@ -186,26 +214,44 @@ public class Room implements Comparable{
 				id == room2.getId());
 	}
 
+	/**
+	 * Compares the ids
+	 */
 	@Override
 	public int compareTo(Object arg0) {
 		Room room = (Room) arg0;
 		return this.id - room.id;
 	}
 
+	/**
+	 * Gets the wall
+	 * @return the wall
+	 */
 	public Walls getWall() {
 		return wall;
 	}
 
+	/**
+	 * sets the wall
+	 * @param wall the wall
+	 */
 	public void setWall(Walls wall) {
 		this.wall = wall;
 	}
 
+	/**
+	 * gets the floor
+	 * @return the floor
+	 */
 	public Floors getFloor() {
 		return floor;
 	}
 
+	/**
+	 * sets the floor
+	 * @param floor the floor
+	 */
 	public void setFloor(Floors floor) {
 		this.floor = floor;
-	}	
-
+	}
 }

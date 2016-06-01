@@ -17,9 +17,17 @@ import sdk.core.Room;
 import sdk.util.Drawer;
 import sdk.util.Saver;
 
+/**
+ * The main frame control app
+ * @author Chris Jerrett
+ */
 public class DungeonEditor
 {
 
+	/**
+	 * The state of the app
+	 * @author Chris Jerrett
+	 */
 	public enum State {
 		MAP(),
 		ROOM
@@ -60,9 +68,12 @@ public class DungeonEditor
 
 		finalizeFrame();
 
-		setEditor(this);
+		editor = this;
 	}
 
+	/**
+	 * Sets up the frame
+	 */
 	private void setUpFrame()
 	{
 		frame = new JFrame();
@@ -79,6 +90,10 @@ public class DungeonEditor
 		frame.getContentPane().setBackground(Color.GRAY);
 	}
 
+	/**
+	 * Draws the first room
+	 * @throws IOException
+	 */
 	private void drawFirstRoom() throws IOException
 	{
 		Room room = new Room(0, new Rectangle());
@@ -93,11 +108,19 @@ public class DungeonEditor
 		rooms.add(pane);
 	}
 
+	/**
+	 * finalizes the frame
+	 */
 	private void finalizeFrame()
 	{
 		frame.setVisible(true);
 	}
 
+	/**
+	 * Adds a room panel to the map
+	 * @param room the room panel
+	 * @throws IOException
+	 */
 	public void addRoom(RoomPanel room) throws IOException
 	{
 		
@@ -120,28 +143,9 @@ public class DungeonEditor
 		frame.repaint();
 	}
 
-
-	public ArrayList<RoomPanel> getRooms() {
-		return rooms;
-	}
-
-	public void setRooms(ArrayList<RoomPanel> rooms) {
-		this.rooms = rooms;
-	}
-
-	public static DungeonEditor getEditor() {
-		return editor;
-	}
-
-	public static void setEditor(DungeonEditor editor) {
-		DungeonEditor.editor = editor;
-	}
-	
-	public JFrame getFrame()
-	{
-		return frame;
-	}
-
+	/**
+	 * UPdates the frame and the rooms
+	 */
 	public void update() 
 	{
 		for(RoomPanel room : rooms)
@@ -155,9 +159,11 @@ public class DungeonEditor
 		{
 			rooms.add(panel.getRoom());
 		}
-		Saver.saveRooms(rooms);
 	}
-	
+	/**
+	 * Enters a room to edit
+	 * @param room the room panel to edit
+	 */
 	public void enterRoom(RoomPanel room)
 	{
 		state = State.ROOM;
@@ -166,7 +172,7 @@ public class DungeonEditor
 		Rectangle bounds = new Rectangle(0,0, DungeonEditor.WIDTH, DungeonEditor.HEIGHT);
 		room.setBounds(bounds);
 		try {
-			room.setImage(Drawer.genBufferedImageFromRoom(room.getRoom(), room.getRoom().getWall(), room.getRoom().getFloor())
+			room.setImage(Drawer.genBufferedImageFromRoom(room.getRoom())
 					.getScaledInstance(WIDTH,HEIGHT,BufferedImage.SCALE_FAST));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -176,10 +182,51 @@ public class DungeonEditor
 		SwingUtilities.updateComponentTreeUI(frame);
 	}
 
+	/**
+	 * Gets the rooms
+	 * @return the rooms
+	 */
+	public ArrayList<RoomPanel> getRooms() {
+		return rooms;
+	}
+
+	/**
+	 * Sets the rooms
+	 * @param rooms
+	 */
+	public void setRooms(ArrayList<RoomPanel> rooms) {
+		this.rooms = rooms;
+	}
+
+	/**
+	 * gets this dungeon editor
+	 * @return
+	 */
+	public static DungeonEditor getEditor() {
+		return editor;
+	}
+	
+	/**
+	 * Gets the JFrame
+	 * @return the frame
+	 */
+	public JFrame getFrame()
+	{
+		return frame;
+	}
+
+	/**
+	 * Gets the state
+	 * @return the state
+	 */
 	public static State getState() {
 		return state;
 	}
 
+	/**
+	 * Sets the state
+	 * @param state the state
+	 */
 	public static void setState(State state) {
 		DungeonEditor.state = state;
 	}
