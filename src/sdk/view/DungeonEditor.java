@@ -3,11 +3,15 @@ package sdk.view;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Menu;
+import java.awt.MenuBar;
+import java.awt.MenuItem;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.Buffer;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -53,7 +57,7 @@ public class DungeonEditor
 	 * Create the application.
 	 */
 	public DungeonEditor()
-	{
+	{		
 		this.rooms = new ArrayList<RoomPanel>();
 		state = State.MAP;
 		
@@ -66,9 +70,36 @@ public class DungeonEditor
 			e.printStackTrace();
 		}
 
+		setUpMenu();
 		finalizeFrame();
 
 		editor = this;
+	}
+
+	/**
+	 * Sets up the menubar
+	 */
+	private void setUpMenu() {
+		MenuBar menuBar = new MenuBar();
+		Menu menu = new Menu("File");
+		menuBar.add(menu);
+		
+		MenuItem save = new MenuItem("Save");
+		save.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+				ArrayList<Room> roomsArray = new ArrayList<Room>();
+				for(RoomPanel panel : rooms)
+				{
+					roomsArray.add(panel.getRoom());
+				}
+				Saver.saveRooms(roomsArray);
+			}
+		});
+		menu.add(save);
+		frame.setMenuBar(menuBar);
 	}
 
 	/**

@@ -11,25 +11,35 @@ public class Room implements Comparable{
 	 */
 	public enum Floors
 	{
-		GRASS_FLOOR("GrassFloor.png");
+		SAND_FLOOR("SandFloor.png",1),
+		GRASS_FLOOR("GrassFloor.png", 2),
+		WOOD_FLOOR("WoodFloor.png",7),
+		CASTLE_FLOOR("CastleFloor.png",8);
+		
 
 		public final String file;
-		Floors(String file)
+		public final int id;
+		Floors(String file, int id)
 		{
 			this.file = file;
+			this.id = id;
 		}
 	};
 
 	public enum Walls
 	{
-		BLACK_WALL("BlackWall.png");
-		//BRICK_WALL("CastleWall.png"),
-		//MOSSY_WALL("MossyWall.png");
+		BLACK_WALL("BlackWall.png", 6),
+		CASTLE_WALL("CastleWall.png", 9),
+		CASTLE_WALL_MOSS("CastleWallMoss.png", 11),
+		CASTLE_WALL_CRACKED("CastleWallCracked.png", 10);
+
 
 		public final String file;
-		Walls(String file)
+		public final int id;
+		Walls(String file, int id)
 		{
 			this.file = file;
+			this.id =id;
 		}
 	};
 
@@ -73,13 +83,6 @@ public class Room implements Comparable{
 	public int getTop()
 	{
 		return top;
-	}
-
-	@Override
-	public String toString() {
-		return "Room [top=" + top + ", bottom=" + bottom + ", left=" + left
-				+ ", right=" + right + ", id=" + id + ", entities=" + entities
-				+ "]";
 	}
 
 	/**

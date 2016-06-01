@@ -11,18 +11,28 @@ import javax.swing.JPanel;
 
 import sdk.core.Room;
 import sdk.util.Drawer;
-
+/**
+ * A panel for a Room
+ * @author Chris Jerrett
+ */
 public class RoomPanel extends JPanel implements Comparable{
 
 	private Room room;
 	
 	private Image image;
 	
+	/**
+	 * Constructs a room panel
+	 * @param room the room
+	 */
 	public RoomPanel(Room room) {
 		super();
 		this.room = room;
 	}
 	
+	/**
+	 * Paints the component
+	 */
 	@Override
 	protected void paintComponent(Graphics g)
 	{			
@@ -30,6 +40,9 @@ public class RoomPanel extends JPanel implements Comparable{
 		g.drawImage(image, 0, 0, null);
 	}
 	
+	/**
+	 * Refreshes all the images
+	 */
 	public void refreshImage()
 	{
 		try {
@@ -43,27 +56,34 @@ public class RoomPanel extends JPanel implements Comparable{
 		}
 	}
 	
+	/**
+	 * Sets the image
+	 * @param image the image
+	 */
 	public void setImage(Image image)
 	{
 		this.image = image;
 	}
 
+	/**
+	 * gets the room
+	 * @return the room
+	 */
 	public Room getRoom() 
 	{
 		return room;
 	}
-
+	
+	/**
+	 * Sets the room
+	 * @param room the room
+	 */
 	public void setRoom(Room room) 
 	{
 		this.room = room;
 	}
 
-	@Override
-	public String toString() 
-	{
-		return "RoomPanel [room=" + room + ", image=" + image + ", bounds=" + getBounds() + "]";
-	}
-
+	
 	@Override
 	public int compareTo(Object o) 
 	{
