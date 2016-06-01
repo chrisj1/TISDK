@@ -11,11 +11,14 @@ import javax.swing.JPanel;
 
 import sdk.core.Room;
 import sdk.util.Drawer;
+
 /**
  * A panel for a Room
+ *
  * @author Chris Jerrett
  */
-public class RoomPanel extends JPanel implements Comparable{
+public class RoomPanel extends JPanel implements Comparable
+{
 
 	private Room room;
 
@@ -23,9 +26,11 @@ public class RoomPanel extends JPanel implements Comparable{
 
 	/**
 	 * Constructs a room panel
+	 *
 	 * @param room the room
 	 */
-	public RoomPanel(Room room) {
+	public RoomPanel(Room room)
+	{
 		super();
 		this.room = room;
 	}
@@ -45,12 +50,13 @@ public class RoomPanel extends JPanel implements Comparable{
 	 */
 	public void refreshImage()
 	{
-		try {
-			this.image = Drawer.genBufferedImageFromRoom(room)
-					.getScaledInstance(DungeonEditor.ROOM_WIDTH,
-							DungeonEditor.ROOM_HEIGHT,BufferedImage.SCALE_FAST);
+		try
+		{
+			this.image = Drawer.genBufferedImageFromRoom(room).getScaledInstance(DungeonEditor.ROOM_WIDTH,
+			        DungeonEditor.ROOM_HEIGHT, BufferedImage.SCALE_FAST);
 			ImageIO.write(Drawer.toBufferedImage(image), "png", new File("test4.png"));
-		} catch (IOException e)
+		}
+		catch (IOException e)
 		{
 			e.printStackTrace();
 		}
@@ -58,6 +64,7 @@ public class RoomPanel extends JPanel implements Comparable{
 
 	/**
 	 * Sets the image
+	 *
 	 * @param image the image
 	 */
 	public void setImage(Image image)
@@ -67,6 +74,7 @@ public class RoomPanel extends JPanel implements Comparable{
 
 	/**
 	 * gets the room
+	 *
 	 * @return the room
 	 */
 	public Room getRoom()
@@ -76,13 +84,13 @@ public class RoomPanel extends JPanel implements Comparable{
 
 	/**
 	 * Sets the room
+	 *
 	 * @param room the room
 	 */
 	public void setRoom(Room room)
 	{
 		this.room = room;
 	}
-
 
 	@Override
 	public int compareTo(Object o)
@@ -93,7 +101,8 @@ public class RoomPanel extends JPanel implements Comparable{
 	/**
 	 * @return the image
 	 */
-	public Image getImage() {
+	public Image getImage()
+	{
 		return image;
 	}
 

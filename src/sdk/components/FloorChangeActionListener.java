@@ -10,18 +10,30 @@ import sdk.util.Drawer;
 import sdk.view.DungeonEditor;
 import sdk.view.RoomPanel;
 
-public class FloorChangeActionListener implements ActionListener 
+/**
+ * Listens for change in changing floor
+ * @author Chris Jerrett
+ *
+ */
+public class FloorChangeActionListener implements ActionListener
 {
 
 	private Floors floor;
-	
+
+	/**
+	 * Constructs a new listener
+	 * @param ent
+	 */
 	public FloorChangeActionListener(Floors floor)
 	{
 		this.floor = floor;
 	}
-	
+
+	/**
+	 * Changes floor in room
+	 */
 	@Override
-	public void actionPerformed(ActionEvent arg0) 
+	public void actionPerformed(ActionEvent arg0)
 	{
 		RoomPanel panel =  DungeonEditor.getEditor().getEnteredRoom();
 		panel.getRoom().setFloor(floor);

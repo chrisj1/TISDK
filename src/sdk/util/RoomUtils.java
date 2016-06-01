@@ -19,6 +19,11 @@ import sdk.view.RoomPanel;
 public class RoomUtils
 {
 
+	/**
+	 * Generates the Image to be sent to the game
+	 * @param room the room
+	 * @return the buffered image with correct rgb values
+	 */
 	public static BufferedImage genKeyBufferedImageFromRoom(Room room)
 	{
 		BufferedImage bi = new BufferedImage(16, 9, BufferedImage.TYPE_INT_RGB);
