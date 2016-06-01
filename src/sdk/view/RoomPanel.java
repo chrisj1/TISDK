@@ -18,9 +18,9 @@ import sdk.util.Drawer;
 public class RoomPanel extends JPanel implements Comparable{
 
 	private Room room;
-	
+
 	private Image image;
-	
+
 	/**
 	 * Constructs a room panel
 	 * @param room the room
@@ -29,17 +29,17 @@ public class RoomPanel extends JPanel implements Comparable{
 		super();
 		this.room = room;
 	}
-	
+
 	/**
 	 * Paints the component
 	 */
 	@Override
 	protected void paintComponent(Graphics g)
-	{			
+	{
 		super.paintComponent(g);
 		g.drawImage(image, 0, 0, null);
 	}
-	
+
 	/**
 	 * Refreshes all the images
 	 */
@@ -50,12 +50,12 @@ public class RoomPanel extends JPanel implements Comparable{
 					.getScaledInstance(DungeonEditor.ROOM_WIDTH,
 							DungeonEditor.ROOM_HEIGHT,BufferedImage.SCALE_FAST);
 			ImageIO.write(Drawer.toBufferedImage(image), "png", new File("test4.png"));
-		} catch (IOException e) 
+		} catch (IOException e)
 		{
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Sets the image
 	 * @param image the image
@@ -69,23 +69,23 @@ public class RoomPanel extends JPanel implements Comparable{
 	 * gets the room
 	 * @return the room
 	 */
-	public Room getRoom() 
+	public Room getRoom()
 	{
 		return room;
 	}
-	
+
 	/**
 	 * Sets the room
 	 * @param room the room
 	 */
-	public void setRoom(Room room) 
+	public void setRoom(Room room)
 	{
 		this.room = room;
 	}
 
-	
+
 	@Override
-	public int compareTo(Object o) 
+	public int compareTo(Object o)
 	{
 		return room.compareTo(o);
 	}
@@ -95,5 +95,5 @@ public class RoomPanel extends JPanel implements Comparable{
 	 */
 	public Image getImage() {
 		return image;
-	}	
+	}
 }

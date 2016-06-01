@@ -1,11 +1,10 @@
 package sdk.util;
 
 import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -51,13 +50,16 @@ public class Drawer {
 						Drawer.class.getResourceAsStream("/assets/" + floor.file)));
 			}
 		}
-		Floors selectedFloor = room.getFloor();
-		Walls selectedWall = room.getWall();
+		
+		System.out.println(room.getFloor());
 
 		BufferedImage bi = fillRoom(room);
 		System.out.println(bi);
+		ImageIO.write(bi, "png", new File("1.png"));
 		bi = outlineRoom(bi, room);
+		ImageIO.write(bi, "png", new File("2.png"));
 		bi = addEntrances(bi, room);
+		ImageIO.write(bi, "png", new File("3.png"));
 
 		return bi;
 	}
