@@ -15,8 +15,7 @@ public class Entity
 	 */
 	public enum EntityType
 	{
-		KNIGHT("Knight"),
-		BAT("Bat");
+		KNIGHT("Knight");
 
 		private String name;
 		private EntityType(String name)

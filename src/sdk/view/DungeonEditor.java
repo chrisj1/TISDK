@@ -18,7 +18,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.SwingUtilities;
 
 import sdk.components.DungeonContextListener;
@@ -79,53 +83,24 @@ public class DungeonEditor
 			e.printStackTrace();
 		}
 
-		setUpMenu();
+		setUpSaveButton();
 		finalizeFrame();
-		handleKeyBoardListener();
 
 		editor = this;
 	}
 
 	/**
-	 * Handles exiting out of room with esc
-	 */
-	private void handleKeyBoardListener() {
-		frame.addKeyListener(new KeyListener()
-		{
-
-			@Override
-			public void keyPressed(KeyEvent arg0) {
-				if(arg0.getKeyCode() == KeyEvent.VK_ESCAPE)
-				{
-					exitRoom();
-				}
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void keyTyped(KeyEvent arg0) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-	}
-
-	/**
 	 * Sets up the menubar
 	 */
-	private void setUpMenu() {
-		MenuBar menuBar = new MenuBar();
-		Menu menu = new Menu("File");
-		menuBar.add(menu);
+	private void setUpSaveButton() 
+	{
+		JButton save = new JButton("Save");
+		final int X = 10;
+		final int Y = 10;
+		final int BUTTON_WIDTH = 70;
+		final int BUTTON_HEIGHT = 50;
+		save.setBounds(new Rectangle(X,Y,BUTTON_WIDTH,BUTTON_HEIGHT));
 
-		MenuItem save = new MenuItem("Save");
 		save.addActionListener(new ActionListener()
 		{
 			@Override
@@ -139,9 +114,10 @@ public class DungeonEditor
 				Saver.saveRooms(roomsArray);
 			}
 		});
-		menu.add(save);
+		frame.add(save);
 
-		frame.setMenuBar(menuBar);
+		frame.repaint();
+		SwingUtilities.updateComponentTreeUI(frame);
 	}
 
 	/**
@@ -246,6 +222,27 @@ public class DungeonEditor
 	 */
 	public void enterRoom(RoomPanel room)
 	{
+		final JButton btExit = new JButton("Exit");
+		
+		final int X = 90;
+		final int Y = 10;
+		final int BUTTON_WIDTH = 70;
+		final int BUTTON_HEIGHT = 50;
+		btExit.setBounds(new Rectangle(X,Y,BUTTON_WIDTH,BUTTON_HEIGHT));
+		
+		btExit.addActionListener(new ActionListener()
+		{
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+					exitRoom();
+					frame.remove(btExit);
+			}
+			
+		});
+		
+		frame.add(btExit);
+		
 		enteredRoom = room;
 		state = State.ROOM;
 		Rectangle bounds = new Rectangle(0,0, DungeonEditor.WIDTH, DungeonEditor.HEIGHT);
@@ -267,6 +264,7 @@ public class DungeonEditor
 		frame.add(clone);
 		SwingUtilities.updateComponentTreeUI(frame);
 		enteredRoom = clone;
+		setUpSaveButton();
 	}
 
 	public void exitRoom()
@@ -276,7 +274,6 @@ public class DungeonEditor
 			this.state = State.MAP;
 			for(RoomPanel panel: rooms)
 			{
-				System.out.println(panel.getBounds());
 				panel.refreshImage();
 				frame.getContentPane().remove(enteredRoom);
 				frame.getContentPane().add(panel);

@@ -8,6 +8,8 @@ import java.io.IOException;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
+import sdk.core.Entity;
+import sdk.core.Entity.EntityType;
 import sdk.core.Room;
 import sdk.core.Room.Floors;
 import sdk.core.Room.Walls;
@@ -58,6 +60,16 @@ public class DungeonContextMenu extends JPopupMenu
 			menuItem.addActionListener(new WallChangeActionListener(wall));
 			add(menuItem);
 		}
+		
+		addSeparator();
+		
+		for(EntityType ent : EntityType.values())
+		{
+			JMenuItem menuItem = new JMenuItem(ent.name());
+			menuItem.addActionListener(new EntityChangeActionListener(ent));
+			add(menuItem);
+		}
+		
 	}
 
 	/**

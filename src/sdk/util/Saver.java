@@ -1,6 +1,7 @@
 package sdk.util;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,16 +25,27 @@ public class Saver {
 	{
 		String time = String.valueOf(System.currentTimeMillis());
 		File file = new File(time);
-		file.mkdir();
+		System.out.println(file.mkdir());
 		Collections.sort(rooms);
 		String dat = genOutput(rooms);
 		for(Room room : rooms)
 		{
 			try {
-				ImageIO.write(RoomUtils.genKeyBufferedImageFromRoom(room), "png", new File(time + "/" + room.getId()));
+				ImageIO.write(RoomUtils.genKeyBufferedImageFromRoom(room), "png", new File(time + "/room" + room.getId() + ".png"));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
+		
+		File datFile = new File(time + "/layout.dat");
+		try {
+			System.out.println(datFile.createNewFile());
+			FileWriter writer = new FileWriter(datFile);
+			writer.write(dat);
+			writer.flush();
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
