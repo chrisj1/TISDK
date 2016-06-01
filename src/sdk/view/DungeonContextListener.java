@@ -7,29 +7,44 @@ import javax.swing.JPopupMenu;
 
 import sdk.core.Room;
 
+/**
+ * A context menu listener for the mouse screen
+ * @author Chris Jerrett
+ *
+ */
 public class DungeonContextListener extends MouseAdapter
 {
-	
+	/**
+	 * Called when mouse pressed
+	 * @param e the mouse event
+	 */
 	public void mousePressed(MouseEvent e)
 	{
 		System.out.println(e.getXOnScreen());
 		if(e.isPopupTrigger())
 		{
-			doPop(e);
+			pop(e);
 		}
 	}
 
+	/**
+	 * Called when mouse pressed
+	 * @param e the mouse event
+	 */
 	public void mouseReleased(MouseEvent e)
 	{
 		if(e.isPopupTrigger())
 		{
-			doPop(e);
+			pop(e);
 		}
 	}
 
-	private void doPop(MouseEvent e)
+	/**
+	 * Pops a new context pane
+	 * @param e the mouse event
+	 */
+	private void pop(MouseEvent e)
 	{
-		System.out.println("Menu");
 		RoomPanel room = ((RoomPanel)e.getSource());
 		DungeonContextMenu menu = new DungeonContextMenu(room);
 		menu.show(e.getComponent(), e.getX(), e.getY());

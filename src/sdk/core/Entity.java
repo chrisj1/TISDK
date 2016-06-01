@@ -2,14 +2,21 @@ package sdk.core;
 
 import java.util.Random;
 
+/**
+ * An entity on the map
+ * @author Chris Jerrett
+ */
 public class Entity
 {
 
+	/**
+	 * A list of the types of entities
+	 * @author Chris Jerrett
+	 */
 	public enum EntityType
 	{
 		KNIGHT("Knight"),
-		DRAGON("Dragon"),
-		INQUISITOR("Inquisitor");
+		BAT("Bat");
 
 		private String name;
 		private EntityType(String name)
@@ -29,6 +36,12 @@ public class Entity
 	private int x;
 	private int y;
 
+	/**
+	 * Constructs a new Entity
+	 * @param entityType the type of the entity
+	 * @param x the x pos
+	 * @param y the y pos
+	 */
 	public Entity(EntityType entityType, int x, int y)
 	{
 		this.setEntityType(entityType);
@@ -36,6 +49,14 @@ public class Entity
 		this.setY(y);
 	}
 
+	/**
+	 * Constructs a new entity in the range of x and ys
+	 * @param entityType the type of the entity
+	 * @param minX  the minimum x pos
+	 * @param minY the minimus y pos
+	 * @param maxX the max x pos
+	 * @param maxY the y pos
+	 */
 	public Entity(EntityType entityType, int minX, int minY, int maxX, int maxY)
 	{
 		this.setEntityType(entityType);

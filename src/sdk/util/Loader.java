@@ -17,9 +17,9 @@ import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 
 import sdk.components.FileChooser;
+import sdk.components.Filter;
 import sdk.core.Dungeon;
 import sdk.core.Room;
-import sdk.view.Filter;
 import sdk.core.Entity;
 
 public class Loader

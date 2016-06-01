@@ -3,11 +3,14 @@ package sdk.core;
 import java.awt.EventQueue;
 
 import sdk.view.DungeonEditor;
-
+/**
+ * Called at start up program
+ * @author Chris Jerrett
+ */
 public class Main {
 
 	/**
-	 * Launch the application.
+	 * Launches the application.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {

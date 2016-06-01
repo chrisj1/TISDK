@@ -1,28 +1,35 @@
 package sdk.core;
 
+/**
+ * Represents a dungeon with an [] of Rooms
+ * @author Chris Jerrett
+ *
+ */
 public class Dungeon 
 {
-
-	private String name;
 	private Room[] rooms;
 	
+	/**
+	 * Constructs a new Dungeon with a array of rooms
+	 * @param rooms
+	 */
 	public Dungeon(Room[] rooms) 
 	{
 		this.rooms = rooms;
 	}
-	public String getName() 
-	{
-		return name;
-	}
-	public void setName(String name) 
-	{
-		this.name = name;
-	}
 	
+	/**
+	 * Gets the rooms ion the dungeon
+	 * @return
+	 */
 	public Room[] getRooms() 
 	{
 		return rooms;
 	}
+	/**
+	 * Sets the rooms in the Dungeon
+	 * @param rooms
+	 */
 	public void setRooms(Room[] rooms) 
 	{
 		this.rooms = rooms;

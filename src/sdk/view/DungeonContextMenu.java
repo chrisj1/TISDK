@@ -12,8 +12,17 @@ import sdk.core.Room;
 import sdk.util.RoomUtils;
 import sdk.view.DungeonEditor.State;
 
-public class DungeonContextMenu extends JPopupMenu 
-{	
+/**
+ * A dungeon context menu
+ * @author Chris Jerrett
+ *
+ */
+public class DungeonContextMenu extends JPopupMenu
+{
+	/**
+	 * Creates a new popup menu
+	 * @param room the room panel that is modified
+	 */
 	public DungeonContextMenu(RoomPanel room)
     {
     	if(DungeonEditor.getState() == State.MAP)
@@ -26,18 +35,26 @@ public class DungeonContextMenu extends JPopupMenu
     	}
     }
 
+	/**
+	 * Setsup the menu when editing a single room
+	 * @param room
+	 */
 	private void setUpRoomMenu(RoomPanel room) {
-		
+
 	}
 
+	/**
+	 * Adds Buttons and actions when in map view
+	 * @param room the room panel
+	 */
 	private void setUpMapMenu(final RoomPanel room) {
 		JMenuItem addRoomAbove;
 		JMenuItem addRoomBelow;
 		JMenuItem addRoomRight;
 		JMenuItem addRoomLeft;
-		
+
 		JMenuItem enterRoom;
-		
+
 		enterRoom = new JMenuItem("Edit Room");
     	enterRoom.addActionListener(new ActionListener()
     	{
@@ -47,7 +64,7 @@ public class DungeonContextMenu extends JPopupMenu
 			}
     	});
     	add(enterRoom);
-    	
+
         addRoomAbove = new JMenuItem("Add Room Above");
         addRoomAbove.addActionListener(new ActionListener()
         {
@@ -160,18 +177,16 @@ public class DungeonContextMenu extends JPopupMenu
 
         final int x = room.getBounds().x;
         final int y = room.getBounds().y;
-        
+
         if(RoomUtils.findRoomOnScreen(x, y - DungeonEditor.ROOM_HEIGHT) != null)
         {
         	JMenuItem connectAbove = new JMenuItem("Connect Above");
         	connectAbove.addActionListener(new ActionListener()
         	{
 				@Override
-				public void actionPerformed(ActionEvent arg0) 
+				public void actionPerformed(ActionEvent arg0)
 				{
 					RoomPanel top = RoomUtils.findRoomOnScreen(x, y - DungeonEditor.ROOM_HEIGHT);
-					System.out.println(room);
-					System.out.println(top);
 					room.getRoom().setTop(top.getRoom().getId());
 					top.getRoom().setBottom(room.getRoom().getId());
 					room.refreshImage();
@@ -187,15 +202,13 @@ public class DungeonContextMenu extends JPopupMenu
         	connectBelow.addActionListener(new ActionListener()
         	{
 				@Override
-				public void actionPerformed(ActionEvent arg0) 
+				public void actionPerformed(ActionEvent arg0)
 				{
 					RoomPanel bottom = RoomUtils.findRoomOnScreen(x, y + DungeonEditor.ROOM_HEIGHT);
 					System.out.println(room);
 					System.out.println(bottom);
 					room.getRoom().setBottom(bottom.getRoom().getId());
 					bottom.getRoom().setTop(room.getRoom().getId());
-					room.refreshImage();
-					bottom.refreshImage();
 					DungeonEditor.getEditor().update();
 				}
         	});
@@ -207,11 +220,9 @@ public class DungeonContextMenu extends JPopupMenu
         	connectRight.addActionListener(new ActionListener()
         	{
 				@Override
-				public void actionPerformed(ActionEvent arg0) 
+				public void actionPerformed(ActionEvent arg0)
 				{
 					RoomPanel right = RoomUtils.findRoomOnScreen(x + DungeonEditor.ROOM_WIDTH + 1, y + 1);
-					System.out.println(room);
-					System.out.println(right);
 					room.getRoom().setRight(right.getRoom().getId());
 					right.getRoom().setLeft(room.getRoom().getId());
 					room.refreshImage();
@@ -229,8 +240,6 @@ public class DungeonContextMenu extends JPopupMenu
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
 					RoomPanel left = RoomUtils.findRoomOnScreen(x - DungeonEditor.ROOM_WIDTH + 1, y + 1);
-					System.out.println(room);
-					System.out.println(left);
 					room.getRoom().setLeft(left.getRoom().getId());
 					left.getRoom().setRight(room.getRoom().getId());
 					room.refreshImage();

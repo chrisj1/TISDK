@@ -7,8 +7,16 @@ import sdk.core.Entity;
 import sdk.core.Room;
 import sdk.view.RoomPanel;
 
+/**
+ * Deals with saving a dungeon
+ * @author Chris Jerrett
+ */
 public class Saver {
 
+	/**
+	 * Saves a arrayList of rooms
+	 * @param rooms
+	 */
 	public static void saveRooms(ArrayList<Room> rooms)
 	{
 		Collections.sort(rooms);
@@ -16,6 +24,11 @@ public class Saver {
 
 	}
 
+	/**
+	 * Generates the .dat file with links
+	 * @param rooms the rooms to save
+	 * @return a string that the .dat file should contain
+	 */
 	private static String genOutput(ArrayList<Room> rooms)
 	{
 		String output = "# Dungeon layout";

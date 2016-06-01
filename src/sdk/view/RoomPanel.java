@@ -33,8 +33,9 @@ public class RoomPanel extends JPanel implements Comparable{
 	public void refreshImage()
 	{
 		try {
-			this.image = Drawer.genBufferedImageFromRoom(room, room.getWall(), room.getFloor())
-					.getScaledInstance(DungeonEditor.ROOM_WIDTH,DungeonEditor.ROOM_HEIGHT,BufferedImage.SCALE_FAST);
+			this.image = Drawer.genBufferedImageFromRoom(room)
+					.getScaledInstance(DungeonEditor.ROOM_WIDTH,
+							DungeonEditor.ROOM_HEIGHT,BufferedImage.SCALE_FAST);
 			ImageIO.write(Drawer.toBufferedImage(image), "png", new File("test4.png"));
 		} catch (IOException e) 
 		{

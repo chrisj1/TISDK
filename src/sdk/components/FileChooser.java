@@ -2,28 +2,31 @@ package sdk.components;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionListener;
-import java.io.File;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import sdk.view.Filter;
-
+/**
+ * A Generic File Chooser
+ * @author Chris Jerrett
+ *
+ */
 public class FileChooser extends JFrame
 {
 
 	private JPanel contentPane;
 	private JFileChooser chooser;
-	private File file;
 
 	/**
-	 * Create the frame.
+	 * Creates a new File chooser
+	 * @param filter the filter to filter files
+	 * @param type the type of the dialog
+	 * @param actionListener what to do when button is clicked
 	 */
-	public FileChooser(sdk.view.Filter filter, int type, ActionListener actionListener)
+	public FileChooser(Filter filter, int type, ActionListener actionListener)
 	{
-		this.setFile(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 900, 600);
 		contentPane = new JPanel();
@@ -38,20 +41,5 @@ public class FileChooser extends JFrame
 		contentPane.add(chooser);
 
 		setVisible(true);
-	}
-
-	public File getFile()
-	{
-		return file;
-	}
-
-	public void setFile(File file)
-	{
-		this.file = file;
-	}
-
-	public JFileChooser getChooser()
-	{
-		return chooser;
 	}
 }
