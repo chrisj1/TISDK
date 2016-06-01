@@ -11,12 +11,15 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import sdk.components.DungeonContextListener;
 import sdk.core.Room;
 import sdk.util.Drawer;
 import sdk.util.Saver;
@@ -36,7 +39,7 @@ public class DungeonEditor
 		MAP(),
 		ROOM
 	}
-	
+
 	private static DungeonEditor editor;
 
 	public static final int WIDTH = 1280;
@@ -44,24 +47,29 @@ public class DungeonEditor
 
 	public static final int ROOM_WIDTH = WIDTH/16;
 	public static final int ROOM_HEIGHT = HEIGHT/16;
+	
+	public static final int MENU_BAR_HEIGHT = 50;
 
 	private JFrame frame;
 
 	private ArrayList<RoomPanel> rooms;
-	
+
 	private Container dungeonCon;
-	
+
 	private static State state;
+	
+	private RoomPanel enteredRoom;
 
 	/**
 	 * Create the application.
 	 */
 	public DungeonEditor()
-	{		
+	{
+		this.enteredRoom = null;
 		this.rooms = new ArrayList<RoomPanel>();
 		state = State.MAP;
-		
-		setUpFrame();		
+
+		setUpFrame();
 		frame.getContentPane().setLayout(null);
 
 		try {
@@ -83,12 +91,12 @@ public class DungeonEditor
 		MenuBar menuBar = new MenuBar();
 		Menu menu = new Menu("File");
 		menuBar.add(menu);
-		
+
 		MenuItem save = new MenuItem("Save");
 		save.addActionListener(new ActionListener()
 		{
 			@Override
-			public void actionPerformed(ActionEvent arg0) 
+			public void actionPerformed(ActionEvent arg0)
 			{
 				ArrayList<Room> roomsArray = new ArrayList<Room>();
 				for(RoomPanel panel : rooms)
@@ -99,6 +107,7 @@ public class DungeonEditor
 			}
 		});
 		menu.add(save);
+		
 		frame.setMenuBar(menuBar);
 	}
 
@@ -114,7 +123,7 @@ public class DungeonEditor
 		int topRightx = (screenSize.width/2 - WIDTH/2);
 		int topRighty = (screenSize.height - HEIGHT)/2;
 
-		frame.setBounds(topRightx, topRighty, WIDTH, HEIGHT);
+		frame.setBounds(topRightx, topRighty, WIDTH, HEIGHT + MENU_BAR_HEIGHT);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		frame.setBackground(Color.BLACK);
@@ -132,7 +141,7 @@ public class DungeonEditor
 		pane.refreshImage();
 		int x = WIDTH/2- ROOM_WIDTH/2;
 		int y = HEIGHT/2 - ROOM_HEIGHT/2;
-		
+
 		pane.setBounds(x,y,ROOM_WIDTH, ROOM_HEIGHT);
 		pane.addMouseListener(new DungeonContextListener());
 		frame.getContentPane().add(pane);
@@ -154,7 +163,7 @@ public class DungeonEditor
 	 */
 	public void addRoom(RoomPanel room) throws IOException
 	{
-		
+
 		for(RoomPanel panel : this.rooms)
 		{
 			if(panel.getBounds().intersects(room.getBounds()))
@@ -177,18 +186,23 @@ public class DungeonEditor
 	/**
 	 * UPdates the frame and the rooms
 	 */
-	public void update() 
+	public void update()
 	{
 		for(RoomPanel room : rooms)
 		{
 			room.refreshImage();
 		}
 		frame.repaint();
-		
+
 		ArrayList<Room> rooms = new ArrayList<Room>();
 		for(RoomPanel panel : this.rooms)
 		{
 			rooms.add(panel.getRoom());
+		}
+		
+		if(state == State.ROOM)
+		{
+			enterRoom(enteredRoom);
 		}
 	}
 	/**
@@ -197,6 +211,7 @@ public class DungeonEditor
 	 */
 	public void enterRoom(RoomPanel room)
 	{
+		enteredRoom = room;
 		state = State.ROOM;
 		dungeonCon = frame.getContentPane();
 		Container container = new Container();
@@ -208,9 +223,18 @@ public class DungeonEditor
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		try {
+			ImageIO.write(Drawer.toBufferedImage(Drawer.genBufferedImageFromRoom(room.getRoom())
+						.getScaledInstance(WIDTH,HEIGHT,BufferedImage.SCALE_FAST)), "png", new File("Test123.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		container.add(room);
 		frame.setContentPane(container);
+		room.repaint();
 		SwingUtilities.updateComponentTreeUI(frame);
+		System.out.println(room);
 	}
 
 	/**
@@ -236,7 +260,7 @@ public class DungeonEditor
 	public static DungeonEditor getEditor() {
 		return editor;
 	}
-	
+
 	/**
 	 * Gets the JFrame
 	 * @return the frame
@@ -260,5 +284,19 @@ public class DungeonEditor
 	 */
 	public static void setState(State state) {
 		DungeonEditor.state = state;
+	}
+
+	/**
+	 * @return the enteredRoom
+	 */
+	public RoomPanel getEnteredRoom() {
+		return enteredRoom;
+	}
+
+	/**
+	 * @param enteredRoom the enteredRoom to set
+	 */
+	public void setEnteredRoom(RoomPanel enteredRoom) {
+		this.enteredRoom = enteredRoom;
 	}
 }
