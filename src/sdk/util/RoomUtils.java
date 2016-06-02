@@ -13,84 +13,92 @@ import sdk.view.DungeonEditor;
 import sdk.view.RoomPanel;
 
 /**
- * Basic room utilies
+ * Basic room helper methods
+ * 
  * @author Chris Jerrett
  */
 public class RoomUtils
 {
-
+	
 	/**
 	 * Generates the Image to be sent to the game
+	 * 
 	 * @param room the room
 	 * @return the buffered image with correct rgb values
 	 */
 	public static BufferedImage genKeyBufferedImageFromRoom(Room room)
 	{
 		BufferedImage bi = new BufferedImage(16, 9, BufferedImage.TYPE_INT_RGB);
-
+		
 		int wall = new Color(room.getWall().id, room.getWall().id, 255).getRGB();
 		int tile = new Color(room.getFloor().id, room.getFloor().id, 0).getRGB();
-
-		for(int row = 0; row < bi.getHeight(); row++) {
-			for(int col = 0; col < bi.getWidth(); col++) {
-				if(row != 0 && row != bi.getHeight()-1 && col != 0 && col != bi.getWidth()-1)
+		
+		for (int row = 0; row < bi.getHeight(); row++)
+		{
+			for (int col = 0; col < bi.getWidth(); col++)
+			{
+				if (row != 0 && row != bi.getHeight() - 1 && col != 0 && col != bi.getWidth() - 1)
 				{
 					bi.setRGB(col, row, tile);
 				}
-				else {
+				else
+				{
 					bi.setRGB(col, row, wall);
 				}
 			}
 		}
-		if(room.getTop() != -1)
+		if (room.getTop() != -1)
 		{
-			for(int i = 7; i < 9; i++)
+			for (int i = 7; i < 9; i++)
 			{
 				bi.setRGB(i, 0, tile);
 			}
 		}
-
-		if(room.getBottom() != -1)
+		
+		if (room.getBottom() != -1)
 		{
-			for(int i = 7; i < 9; i++)
+			for (int i = 7; i < 9; i++)
 			{
-				bi.setRGB(i, bi.getHeight()-1, tile);
+				bi.setRGB(i, bi.getHeight() - 1, tile);
 			}
 		}
-
-		if(room.getLeft() != -1)
+		
+		if (room.getLeft() != -1)
 		{
-			for(int i = 3; i < 6; i++) {
+			for (int i = 3; i < 6; i++)
+			{
 				bi.setRGB(0, i, tile);
 			}
 		}
-
-		if(room.getRight() != -1)
+		
+		if (room.getRight() != -1)
 		{
-			for(int i = 3; i < 6; i++) {
-				bi.setRGB(bi.getWidth()-1, i, tile);
+			for (int i = 3; i < 6; i++)
+			{
+				bi.setRGB(bi.getWidth() - 1, i, tile);
 			}
 		}
 		return bi;
 	}
-
+	
 	/**
 	 * Finds what roompanel a mouse is on
+	 * 
 	 * @param x the x
 	 * @param y the y
 	 * @return a room panel
 	 */
 	public static RoomPanel findRoomOnScreen(int x, int y)
 	{
-		for(RoomPanel room: DungeonEditor.getEditor().getRooms())
+		for (RoomPanel room : DungeonEditor.getEditor().getRooms())
 		{
-
-			if(room.getBounds().contains(new Point(x,y)))
+			
+			if (room.getBounds().contains(new Point(x, y)))
 			{
 				return room;
 			}
 		}
 		return null;
 	}
-
+	
 }

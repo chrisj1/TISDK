@@ -21,13 +21,13 @@ import sdk.core.Room.Walls;
  */
 public class Drawer
 {
-
+	
 	public static final int WIDTH = 32 * 16;
 	public static final int HEIGHT = 32 * 9;
-
+	
 	private static HashMap<String, BufferedImage> floors;
 	private static HashMap<String, BufferedImage> walls;
-
+	
 	/**
 	 * Generates a buffered image based on a room's connections and tiles
 	 *
@@ -41,25 +41,25 @@ public class Drawer
 		{
 			walls = new HashMap<String, BufferedImage>();
 			floors = new HashMap<String, BufferedImage>();
-
+			
 			for (Walls wall : Walls.values())
 			{
 				walls.put(wall.name(), ImageIO.read(Drawer.class.getResourceAsStream("/assets/" + wall.file)));
 			}
-
+			
 			for (Floors floor : Floors.values())
 			{
 				floors.put(floor.name(), ImageIO.read(Drawer.class.getResourceAsStream("/assets/" + floor.file)));
 			}
 		}
-
+		
 		BufferedImage bi = fillRoom(room);
 		bi = outlineRoom(bi, room);
 		bi = addEntrances(bi, room);
-
+		
 		return bi;
 	}
-
+	
 	/**
 	 * Adds the entrances to a buffered image
 	 *
@@ -70,7 +70,7 @@ public class Drawer
 	private static BufferedImage addEntrances(BufferedImage bi, Room room)
 	{
 		BufferedImage floor = floors.get(room.getFloor().name());
-
+		
 		if (room.getTop() != -1)
 		{
 			for (int row = 0; row < 32; row += 32)
@@ -90,7 +90,7 @@ public class Drawer
 				}
 			}
 		}
-
+		
 		if (room.getBottom() != -1)
 		{
 			for (int row = bi.getHeight() - 32; row < bi.getHeight(); row += 32)
@@ -110,7 +110,7 @@ public class Drawer
 				}
 			}
 		}
-
+		
 		if (room.getLeft() != -1)
 		{
 			for (int row = HEIGHT / 2 - HEIGHT / 6; row < HEIGHT / 2 + HEIGHT / 6; row += 32)
@@ -130,7 +130,7 @@ public class Drawer
 				}
 			}
 		}
-
+		
 		if (room.getRight() != -1)
 		{
 			for (int row = HEIGHT / 2 - HEIGHT / 6; row < HEIGHT / 2 + HEIGHT / 6; row += 32)
@@ -152,7 +152,7 @@ public class Drawer
 		}
 		return bi;
 	}
-
+	
 	/**
 	 * Converts a given Image into a BufferedImage
 	 *
@@ -165,16 +165,16 @@ public class Drawer
 		{
 			return (BufferedImage) img;
 		}
-
+		
 		BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
-
+		
 		Graphics2D bGr = bimage.createGraphics();
 		bGr.drawImage(img, 0, 0, null);
 		bGr.dispose();
-
+		
 		return bimage;
 	}
-
+	
 	/**
 	 * Fills a room with the floor and return a fresh bi
 	 *
@@ -185,7 +185,7 @@ public class Drawer
 	{
 		BufferedImage floor = floors.get(room.getFloor().name());
 		BufferedImage bi = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_4BYTE_ABGR);
-
+		
 		for (int col = 0; col < WIDTH; col += 32)
 		{
 			for (int row = 0; row < HEIGHT; row += 32)
@@ -204,7 +204,7 @@ public class Drawer
 		}
 		return bi;
 	}
-
+	
 	/**
 	 * Adds the walls to a room
 	 *

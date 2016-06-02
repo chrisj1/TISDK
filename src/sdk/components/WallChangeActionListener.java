@@ -10,9 +10,9 @@ import sdk.util.Drawer;
 import sdk.view.DungeonEditor;
 import sdk.view.RoomPanel;
 
-public class WallChangeActionListener implements ActionListener 
+public class WallChangeActionListener implements ActionListener
 {
-
+	
 	private Walls wall;
 	
 	public WallChangeActionListener(Walls wall)
@@ -21,18 +21,20 @@ public class WallChangeActionListener implements ActionListener
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent arg0) 
+	public void actionPerformed(ActionEvent arg0)
 	{
-		RoomPanel panel =  DungeonEditor.getEditor().getEnteredRoom();
+		RoomPanel panel = DungeonEditor.getEditor().getEnteredRoom();
 		panel.getRoom().setWall(wall);
-		try {
-			panel.setImage(Drawer.genBufferedImageFromRoom(panel.getRoom())
-					.getScaledInstance(DungeonEditor.WIDTH, DungeonEditor.HEIGHT, BufferedImage.SCALE_FAST));
-		} catch (IOException e) {
+		try
+		{
+			panel.setImage(Drawer.genBufferedImageFromRoom(panel.getRoom()).getScaledInstance(DungeonEditor.WIDTH,
+			        DungeonEditor.HEIGHT, BufferedImage.SCALE_FAST));
+		}
+		catch (IOException e)
+		{
 			e.printStackTrace();
 		}
 		panel.repaint();
-		//DungeonEditor.getEditor().updateExitButton();
 	}
-
+	
 }
